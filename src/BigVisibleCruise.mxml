@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml"
+  xmlns:maps="com.piaction.dashboard.cruiseControl.maps.*"
+  xmlns:view="com.piaction.dashboard.cruiseControl.view.*"
+  layout="vertical"
+  width="100%"
+  height="100%"
+  creationComplete="setInterval(dispatchEvent, 30000, new MessageEvent(MessageEvent.LOAD_DATA));">
+  <mx:Script>
+    <![CDATA[
+      import mx.collections.ArrayCollection;
+      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+
+      [Bindable]
+      public var projects:ArrayCollection;
+
+    ]]>
+  </mx:Script>
+  <mx:Style source="style.css"/>
+  <maps:MainEventMap />
+  <view:ProjectBox id="projectContainer" projects="{projects}" width="100%" height="100%"/>
+  <mx:HBox id="controls" width="100%" horizontalAlign="right">
+    <mx:LinkButton id="refreshLink" label="Rafraichir" click="dispatchEvent(new MessageEvent(MessageEvent.LOAD_DATA))"/>
+    <mx:LinkButton id="fullScreenLink" label="Plein écran" click="dispatchEvent(new MessageEvent(MessageEvent.FULLSCREEN))"/>
+    <mx:LinkButton id="settingsLink" label="Configuration"/>
+  </mx:HBox>
+</mx:WindowedApplication>

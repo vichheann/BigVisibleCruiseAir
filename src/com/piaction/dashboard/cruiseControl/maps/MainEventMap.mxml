@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mate:EventMap xmlns:mate="http://mate.asfusion.com/" xmlns:mx="http://www.adobe.com/2006/mxml">
+  <mx:Script>
+    <![CDATA[
+      import mx.core.Application;
+      import mx.events.FlexEvent;
+      import com.piaction.dashboard.cruiseControl.repository.CruiseControlRepository;
+      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+      import com.piaction.dashboard.cruiseControl.model.Preferences;
+      import com.piaction.dashboard.cruiseControl.view.Stage;
+
+      private function setup():void
+      {
+        //Preferences.getInstance().dashboardUrl = "http://localhost:9090/dashboard/cctray.xml";
+        Preferences.getInstance().dashboardUrl = "file://localhost/Users/vichheann/work/tmp/cctray.xml";
+        Preferences.getInstance().fullScreen = false;
+      }
+    ]]>
+  </mx:Script>
+  <mate:Debugger level="{Debugger.ALL}"/>
+
+  <mx:HTTPService id="service" resultFormat="e4x"/>
+
+  <mate:EventHandlers type="{FlexEvent.APPLICATION_COMPLETE}">
+    <mate:InlineInvoker method="setup"/>
+  </mate:EventHandlers>
+
+  <mate:EventHandlers type="{MessageEvent.FULLSCREEN}" debug="true">
+    <mate:MethodInvoker generator="{com.piaction.dashboard.cruiseControl.view.Stage}" method="switchFullScreen" arguments="{Application.application}"/>
+  </mate:EventHandlers>
+
+  <mate:EventHandlers type="{MessageEvent.LOAD_DATA}" debug="true">
+    <!-- call the remoting service -->
+    <mate:HTTPServiceInvoker instance="{service}" url="{Preferences.getInstance().dashboardUrl}">
+        <!-- result sequence gets executed when service returns with a result -->
+        <mate:resultHandlers>
+          <mate:MethodInvoker generator="{CruiseControlRepository}" method="getProjectStatus" arguments="{resultObject}" />
+        </mate:resultHandlers>
+        <!-- server fault -->
+        <mate:faultHandlers>
+          <mate:ServiceResponseAnnouncer type="fault"/>
+        </mate:faultHandlers>
+    </mate:HTTPServiceInvoker>
+  </mate:EventHandlers>
+
+  <mate:Injectors target="{BigVisibleCruise}" debug="true">
+    <mate:PropertyInjector targetKey="projects" source="{CruiseControlRepository}" sourceKey="projects" />
+  </mate:Injectors>
+
+</mate:EventMap>
