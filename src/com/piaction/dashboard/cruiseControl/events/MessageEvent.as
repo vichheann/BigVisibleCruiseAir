@@ -6,6 +6,7 @@ package com.piaction.dashboard.cruiseControl.events
   {
     public static const LOAD_DATA:String = "loadData";
     public static const FULLSCREEN:String = "fullScreen";
+    public static const SHOW_CONFIGURATION:String = "showConfiguration";
 
     public function MessageEvent(type:String, bubbles:Boolean=true, cancelable:Boolean=false)
     {

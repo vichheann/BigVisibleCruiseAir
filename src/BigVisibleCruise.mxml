@@ -9,6 +9,7 @@
   <mx:Script>
     <![CDATA[
       import mx.collections.ArrayCollection;
+      import com.piaction.dashboard.cruiseControl.model.Preferences;
       import com.piaction.dashboard.cruiseControl.events.MessageEvent;
 
       [Bindable]
@@ -22,6 +23,6 @@
   <mx:HBox id="controls" width="100%" horizontalAlign="right">
     <mx:LinkButton id="refreshLink" label="Rafraichir" click="dispatchEvent(new MessageEvent(MessageEvent.LOAD_DATA))"/>
     <mx:LinkButton id="fullScreenLink" label="Plein écran" click="dispatchEvent(new MessageEvent(MessageEvent.FULLSCREEN))"/>
-    <mx:LinkButton id="settingsLink" label="Configuration"/>
+    <mx:LinkButton id="settingsLink" label="Configuration" click="dispatchEvent(new MessageEvent(MessageEvent.SHOW_CONFIGURATION))"/>
   </mx:HBox>
 </mx:WindowedApplication>

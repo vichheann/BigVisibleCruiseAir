@@ -82,11 +82,10 @@ package com.piaction.dashboard.cruiseControl.view
       {
         _textField.width = width;
         _textField.fitText(1, true, _textField.width);
-        //_textField.text = _project.name;
         _textField.move(0, (height - _textField.height) / 2);
+       height = Math.max(height, _textField.getExplicitOrMeasuredHeight());
       }
       drawBackground(getBackgroundColor(_project));
-      height = Math.max(height, _textField.getExplicitOrMeasuredHeight());
     }
 
     private function getBackgroundColor(project:Project):ColorEnum

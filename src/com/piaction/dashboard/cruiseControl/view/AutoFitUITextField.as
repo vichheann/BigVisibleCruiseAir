@@ -11,7 +11,7 @@ package com.piaction.dashboard.cruiseControl.view
     private var _format:UITextFormat;
 
     public static var MIN_POINT_SIZE:uint = 6;
-    public static var MAX_POINT_SIZE:uint = 128;
+    public static var MAX_POINT_SIZE:uint = 256;
 
     public function AutoFitUITextField(tf:UITextFormat=null)
     {

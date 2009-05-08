@@ -13,6 +13,7 @@
       {
         Preferences.getInstance().dashboardUrl = "file://localhost/Users/vichheann/work/tmp/cctray.xml";
         Preferences.getInstance().fullScreen = false;
+        Preferences.getInstance().refreshInterval = 30;
       }
     ]]>
   </mx:Script>
@@ -41,6 +42,11 @@
         </mate:faultHandlers>
     </mate:HTTPServiceInvoker>
   </mate:EventHandlers>
+
+  <mate:EventHandlers type="{MessageEvent.SHOW_CONFIGURATION}" debug="true">
+    <mate:MethodInvoker generator="{com.piaction.dashboard.cruiseControl.view.Stage}" method="showConfigurationScreen" arguments="{Application.application}"/>
+  </mate:EventHandlers>
+
 
   <mate:Injectors target="{BigVisibleCruise}" debug="true">
     <mate:PropertyInjector targetKey="projects" source="{CruiseControlRepository}" sourceKey="projects" />

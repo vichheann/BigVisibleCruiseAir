@@ -5,6 +5,7 @@ package com.piaction.dashboard.cruiseControl.model
   {
     public var dashboardUrl:String;
     public var fullScreen:Boolean;
+    public var refreshInterval:int;
 
     private static var _instance:Preferences = new Preferences();
 
