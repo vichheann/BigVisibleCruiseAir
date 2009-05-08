@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:WindowedApplication xmlns:mx="http://www.adobe.com/2006/mxml"
-  xmlns:maps="com.piaction.dashboard.cruiseControl.maps.*"
-  xmlns:view="com.piaction.dashboard.cruiseControl.view.*"
-  layout="vertical"
-  width="100%"
-  height="100%"
-  creationComplete="setInterval(dispatchEvent, 30000, new MessageEvent(MessageEvent.LOAD_DATA));">
+                        xmlns:maps="com.piaction.dashboard.cruiseControl.maps.*"
+                        xmlns:view="com.piaction.dashboard.cruiseControl.view.*"
+                        layout="vertical"
+                        width="100%"
+                        height="100%"
+                        creationComplete="setInterval(dispatchEvent, 30000, new MessageEvent(MessageEvent.LOAD_DATA));">
   <mx:Script>
     <![CDATA[
       import mx.collections.ArrayCollection;

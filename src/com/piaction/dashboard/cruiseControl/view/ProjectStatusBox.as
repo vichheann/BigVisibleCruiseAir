@@ -2,22 +2,21 @@ package com.piaction.dashboard.cruiseControl.view
 {
   import com.piaction.dashboard.cruiseControl.model.ColorEnum;
   import com.piaction.dashboard.cruiseControl.model.Project;
+  import com.piaction.dashboard.cruiseControl.model.ProjectActivityEnum;
+  import com.piaction.dashboard.cruiseControl.model.ProjectStatusEnum;
 
   import flash.display.Graphics;
-  import flash.display.Sprite;
   import flash.events.Event;
   import flash.events.TimerEvent;
-  import flash.text.TextFormat;
-  import flash.text.TextFormatAlign;
   import flash.utils.Timer;
 
-  import mx.core.UIComponent;
+  import mx.containers.Box;
 
-  public class ProjectStatusBox extends UIComponent
+  public class ProjectStatusBox extends Box
   {
-    private var _textField:AutoFitTextField;
-    private var _textLayout:Sprite;
+    private var _textField:AutoFitUITextField;
     private var _blinkTimer:Timer;
+    private var _backgroundColor:ColorEnum;
 
     private var _projectChanged:Boolean = false;
 
@@ -47,10 +46,7 @@ package com.piaction.dashboard.cruiseControl.view
       super.createChildren();
       if (_textField == null)
       {
-        _textLayout = new Sprite();
-        _textField = new AutoFitTextField(getDefaultTextFormat());
-        _textField.changeAlign(TextFormatAlign. CENTER);
-        _textLayout.addChild(_textField);
+        _textField = new AutoFitUITextField();
         addChild(_textField);
       }
     }
@@ -61,15 +57,14 @@ package com.piaction.dashboard.cruiseControl.view
       {
         _textField.text = project.name;
         var color:ColorEnum = getBackgroundColor(project);
-        setStyle("backgroundColor", color.code);
-        /*if (color == ColorEnum.RED)
+        if (color == ColorEnum.RED)
         {
           _blinkTimer.start();
         }
         else if (_blinkTimer.running)
         {
           _blinkTimer.stop();
-        }*/
+        }
         _projectChanged = false;
         invalidateDisplayList();
       }
@@ -83,36 +78,28 @@ package com.piaction.dashboard.cruiseControl.view
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
       super.updateDisplayList(unscaledWidth, unscaledHeight);
-
-      _textField.wordWrap = true;
-      _textField.x = Number(getStyle("paddingLeft"));
-      _textField.y = Number(getStyle("paddingTop"));
-      //_textField.width = Number(getStyle("preferredWidth"));
-      _textField.width = Math.max(getExplicitOrMeasuredWidth(), unscaledWidth);
       if (_textField.text.length > 0)
-        _textField.fitText(_textField.text);
+      {
+        _textField.width = width;
+        _textField.fitText(1, true, _textField.width);
+        //_textField.text = _project.name;
+        _textField.move(0, (height - _textField.height) / 2);
+      }
       drawBackground(getBackgroundColor(_project));
-      //_textField.setActualSize(Math.max(getExplicitOrMeasuredWidth(), unscaledWidth),  _textField.getExplicitOrMeasuredHeight());
-      //_textField.move(0, (unscaledHeight - _textField.getExplicitOrMeasuredHeight()) / 2);
-    }
-
-    private function getDefaultTextFormat():TextFormat
-    {
-      var tf:TextFormat = new TextFormat("Verdana", 12, ColorEnum.BLACK.code, true);
-      return tf;
+      height = Math.max(height, _textField.getExplicitOrMeasuredHeight());
     }
 
     private function getBackgroundColor(project:Project):ColorEnum
     {
-      if (project.activity == "Sleeping")
+      if (project.activity == ProjectActivityEnum.SLEEPING.label)
       {
-        if (project.lastBuildStatus == "Unknown")
+        if (project.lastBuildStatus == ProjectStatusEnum.UNKNOWN.label)
           return ColorEnum.WHITE;
-        if (project.lastBuildStatus == "Success")
+        if (project.lastBuildStatus == ProjectStatusEnum.SUCCESS.label)
           return ColorEnum.GREEN;
         return ColorEnum.RED;
       }
-      if (project.activity == "Building" || project.activity == "CheckingModifications")
+      if (project.activity == ProjectActivityEnum.BUILDING.label || project.activity == ProjectActivityEnum.CHECKING_MODIFICATIONS.label)
       {
         return ColorEnum.YELLOW;
       }
@@ -121,19 +108,20 @@ package com.piaction.dashboard.cruiseControl.view
 
     private function drawBackground(color:ColorEnum):void
     {
-      var h:Number = _textField.y + _textField.height + Number(getStyle("paddingTop")) + Number(getStyle("paddingBottom"));
+      var h:Number = height;
       var g:Graphics = this.graphics;
-      g.beginFill(color.code);
-      g.drawRect(0, 0, width + Number(getStyle("paddingLeft")) + Number(getStyle("paddingRight")), h);
+      _backgroundColor = color;
+      g.clear();
+      g.beginFill(_backgroundColor.code);
+      g.drawRect(0, 0, width, h);
       g.endFill();
     }
 
     private function toggleColor(event:TimerEvent):void
     {
-      var currentColor:Number = Number(getStyle("backgroundColor"));
-      var newColor:Number = 0;
-      currentColor == ColorEnum.RED.code ? newColor = 0x990000 : newColor = ColorEnum.RED.code;
-      setStyle("backgroundColor", newColor);
+      var newColor:ColorEnum = ColorEnum.WHITE;
+      _backgroundColor == ColorEnum.RED ? newColor = ColorEnum.RED_LIGHT : newColor = ColorEnum.RED;
+      drawBackground(newColor);
     }
   }
 }

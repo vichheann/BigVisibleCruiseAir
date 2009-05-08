@@ -11,7 +11,6 @@
 
       private function setup():void
       {
-        //Preferences.getInstance().dashboardUrl = "http://localhost:9090/dashboard/cctray.xml";
         Preferences.getInstance().dashboardUrl = "file://localhost/Users/vichheann/work/tmp/cctray.xml";
         Preferences.getInstance().fullScreen = false;
       }

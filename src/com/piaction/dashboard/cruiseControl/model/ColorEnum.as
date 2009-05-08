@@ -4,6 +4,7 @@ package com.piaction.dashboard.cruiseControl.model
   {
     public static const BLACK:ColorEnum = new ColorEnum(0x000000);
     public static const RED:ColorEnum = new ColorEnum(0xFF0000);
+    public static const RED_LIGHT:ColorEnum = new ColorEnum(0x990000);
     public static const GREEN:ColorEnum = new ColorEnum(0x00FF00);
     public static const BLUE:ColorEnum = new ColorEnum(0x0000FF);
     public static const YELLOW:ColorEnum = new ColorEnum(0xFFFF00);

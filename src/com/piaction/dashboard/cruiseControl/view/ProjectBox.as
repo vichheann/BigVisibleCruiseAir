@@ -25,11 +25,11 @@ package com.piaction.dashboard.cruiseControl.view
     public function set projects(value:ICollectionView):void
     {
       _projects = value;
-      dispatchEvent(new Event("projectsChanged"));
       if (_projects != null)
         _projectsChanged = true;
       removeAllChildren();
-      invalidateDisplayList();
+      invalidateProperties();
+      dispatchEvent(new Event("projectsChanged"));
     }
 
     override protected function createChildren():void
@@ -40,6 +40,20 @@ package com.piaction.dashboard.cruiseControl.view
     override protected function commitProperties():void
     {
       super.commitProperties();
+      if (_projectsChanged)
+      {
+        var cursor:IViewCursor = _projects.createCursor();
+        while(!cursor.afterLast)
+        {
+          var project:Project = Project(cursor.current);
+          var projectStatusBox:ProjectStatusBox = new ProjectStatusBox();
+          projectStatusBox.percentWidth = projectStatusBox.percentHeight = 100;
+          projectStatusBox.project = project;
+          addChild(projectStatusBox);
+          cursor.moveNext();
+        }
+        _projectsChanged = false;
+      }
     }
 
     override protected function measure():void
@@ -50,20 +64,6 @@ package com.piaction.dashboard.cruiseControl.view
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
       super.updateDisplayList(unscaledWidth, unscaledHeight);
-      if (_projectsChanged)
-      {
-        var cursor:IViewCursor = _projects.createCursor();
-        while(!cursor.afterLast)
-        {
-          var project:Project = Project(cursor.current);
-          var projectStatusBox:ProjectStatusBox = new ProjectStatusBox();
-          projectStatusBox.project = project;
-          projectStatusBox.percentWidth = projectStatusBox.percentHeight = 100;
-          addChild(projectStatusBox);
-          cursor.moveNext();
-        }
-        _projectsChanged = false;
-      }
     }
 
   }
