@@ -18,7 +18,7 @@ package com.piaction.dashboard.cruiseControl.view
       super();
 
       autoSize = TextFieldAutoSize.NONE;
-      wordWrap = false;
+      wordWrap = true;
       background = false;
 
       if (tf != null)

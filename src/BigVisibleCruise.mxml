@@ -5,7 +5,7 @@
                         layout="vertical"
                         width="100%"
                         height="100%"
-                        creationComplete="setInterval(dispatchEvent, 30000, new MessageEvent(MessageEvent.LOAD_DATA));">
+                        creationComplete="onComplete()">
   <mx:Script>
     <![CDATA[
       import mx.collections.ArrayCollection;
@@ -15,13 +15,25 @@
       [Bindable]
       public var projects:ArrayCollection;
 
+      private function onComplete():void
+      {
+        var timer:Timer = Preferences.getInstance().refreshTimer;
+        timer.addEventListener(TimerEvent.TIMER, loadData, false, 0, true);
+        timer.start();
+      }
+
+      private function loadData(event:TimerEvent=null):void
+      {
+        dispatchEvent(new MessageEvent(MessageEvent.LOAD_DATA));
+      }
+
     ]]>
   </mx:Script>
   <mx:Style source="style.css"/>
   <maps:MainEventMap />
   <view:ProjectBox id="projectContainer" projects="{projects}" width="100%" height="100%"/>
   <mx:HBox id="controls" width="100%" horizontalAlign="right">
-    <mx:LinkButton id="refreshLink" label="Rafraichir" click="dispatchEvent(new MessageEvent(MessageEvent.LOAD_DATA))"/>
+    <mx:LinkButton id="refreshLink" label="Rafraichir" click="loadData()"/>
     <mx:LinkButton id="fullScreenLink" label="Plein écran" click="dispatchEvent(new MessageEvent(MessageEvent.FULLSCREEN))"/>
     <mx:LinkButton id="settingsLink" label="Configuration" click="dispatchEvent(new MessageEvent(MessageEvent.SHOW_CONFIGURATION))"/>
   </mx:HBox>

@@ -83,7 +83,7 @@ package com.piaction.dashboard.cruiseControl.view
         _textField.width = width;
         _textField.fitText(1, true, _textField.width);
         _textField.move(0, (height - _textField.height) / 2);
-       height = Math.max(height, _textField.getExplicitOrMeasuredHeight());
+         height = _textField.getExplicitOrMeasuredHeight();
       }
       drawBackground(getBackgroundColor(_project));
     }
@@ -98,9 +98,13 @@ package com.piaction.dashboard.cruiseControl.view
           return ColorEnum.GREEN;
         return ColorEnum.RED;
       }
-      if (project.activity == ProjectActivityEnum.BUILDING.label || project.activity == ProjectActivityEnum.CHECKING_MODIFICATIONS.label)
+      if (project.activity == ProjectActivityEnum.BUILDING.label)
       {
         return ColorEnum.YELLOW;
+      }
+      if (project.activity == ProjectActivityEnum.CHECKING_MODIFICATIONS.label)
+      {
+        return ColorEnum.ORANGE;
       }
       return ColorEnum.BLACK;
     }
