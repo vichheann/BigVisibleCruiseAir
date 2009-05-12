@@ -25,5 +25,12 @@ package com.piaction.dashboard.cruiseControl.model
     {
       return _code;
     }
+
+    public function equals(color:ColorEnum):Boolean
+    {
+      if (color == null)
+        return false;
+      return _code == color._code;
+    }
   }
 }

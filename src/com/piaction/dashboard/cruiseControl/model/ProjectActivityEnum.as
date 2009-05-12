@@ -20,5 +20,12 @@ package com.piaction.dashboard.cruiseControl.model
     {
       return _label;
     }
+
+    public function equals(activity:ProjectActivityEnum):Boolean
+    {
+      if (activity == null)
+        return false;
+      return _label == activity.label;
+    }
   }
 }

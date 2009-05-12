@@ -11,6 +11,7 @@
 
       private function setup():void
       {
+        //Preferences.getInstance().dashboardUrl = "http://ubuntu1/cruiseControl/dashboard.php";
         Preferences.getInstance().dashboardUrl = "file://localhost/Users/vichheann/work/tmp/cctray.xml";
         Preferences.getInstance().fullScreen = false;
         Preferences.getInstance().refreshInterval = 30;

@@ -6,8 +6,8 @@ package com.piaction.dashboard.cruiseControl.model
   public class Project
   {
     public var name:String;
-    public var activity:String;
-    public var lastBuildStatus:String;
+    public var activity:ProjectActivityEnum;
+    public var lastBuildStatus:ProjectStatusEnum;
     public var lastBuildLabel:String;
     public var lastBuildTime:Date;
     public var url:String;
@@ -15,8 +15,8 @@ package com.piaction.dashboard.cruiseControl.model
     public function Project(name:String, activity:String, lastBuildStatus:String, lastBuildLabel:String, lastBuildTime:String, url:String)
     {
       this.name = name;
-      this.activity = activity;
-      this.lastBuildStatus = lastBuildStatus;
+      this.activity = new ProjectActivityEnum(activity);
+      this.lastBuildStatus = new ProjectStatusEnum(lastBuildStatus);
       this.lastBuildLabel = lastBuildLabel;
       this.lastBuildTime = isoToDate(lastBuildTime);
       this.url = url;

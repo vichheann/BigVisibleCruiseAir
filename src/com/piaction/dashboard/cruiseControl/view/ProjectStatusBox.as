@@ -57,7 +57,7 @@ package com.piaction.dashboard.cruiseControl.view
       {
         _textField.text = project.name;
         var color:ColorEnum = getBackgroundColor(project);
-        if (color == ColorEnum.RED)
+        if (color.equals(ColorEnum.RED))
         {
           _blinkTimer.start();
         }
@@ -81,28 +81,28 @@ package com.piaction.dashboard.cruiseControl.view
       if (_textField.text.length > 0)
       {
         _textField.width = width;
-        _textField.fitText(1, true, _textField.width);
+        _textField.fitText(1, true, getExplicitOrMeasuredWidth());
         _textField.move(0, (height - _textField.height) / 2);
-         height = _textField.getExplicitOrMeasuredHeight();
+        height = _textField.getExplicitOrMeasuredHeight();
       }
       drawBackground(getBackgroundColor(_project));
     }
 
     private function getBackgroundColor(project:Project):ColorEnum
     {
-      if (project.activity == ProjectActivityEnum.SLEEPING.label)
+      if (project.activity.equals(ProjectActivityEnum.SLEEPING))
       {
-        if (project.lastBuildStatus == ProjectStatusEnum.UNKNOWN.label)
+        if (project.lastBuildStatus.equals(ProjectStatusEnum.UNKNOWN))
           return ColorEnum.WHITE;
-        if (project.lastBuildStatus == ProjectStatusEnum.SUCCESS.label)
+        if (project.lastBuildStatus.equals(ProjectStatusEnum.SUCCESS))
           return ColorEnum.GREEN;
         return ColorEnum.RED;
       }
-      if (project.activity == ProjectActivityEnum.BUILDING.label)
+      if (project.activity.equals(ProjectActivityEnum.BUILDING))
       {
         return ColorEnum.YELLOW;
       }
-      if (project.activity == ProjectActivityEnum.CHECKING_MODIFICATIONS.label)
+      if (project.activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS))
       {
         return ColorEnum.ORANGE;
       }
@@ -123,7 +123,7 @@ package com.piaction.dashboard.cruiseControl.view
     private function toggleColor(event:TimerEvent):void
     {
       var newColor:ColorEnum = ColorEnum.WHITE;
-      _backgroundColor == ColorEnum.RED ? newColor = ColorEnum.RED_LIGHT : newColor = ColorEnum.RED;
+      _backgroundColor.equals(ColorEnum.RED) ? newColor = ColorEnum.RED_LIGHT : newColor = ColorEnum.RED;
       drawBackground(newColor);
     }
   }

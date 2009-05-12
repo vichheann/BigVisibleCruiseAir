@@ -1,18 +1,27 @@
 package com.piaction.dashboard.cruiseControl.view
 {
   import com.piaction.dashboard.cruiseControl.model.Project;
+  import com.piaction.dashboard.cruiseControl.model.ProjectActivityEnum;
+  import com.piaction.dashboard.cruiseControl.model.ProjectStatusEnum;
 
   import flash.events.Event;
 
   import mx.collections.ICollectionView;
   import mx.collections.IViewCursor;
+  import mx.collections.Sort;
+  import mx.collections.SortField;
   import mx.containers.VBox;
 
   public class ProjectBox extends VBox
   {
+    private var _sort:Sort;
+
     public function ProjectBox()
     {
       super();
+      _sort = new Sort();
+      _sort.fields = [new SortField("lastBuildStatus"), new SortField("activity")];
+      _sort.compareFunction = compareProjects;
     }
 
     private var _projects:ICollectionView;
@@ -26,7 +35,11 @@ package com.piaction.dashboard.cruiseControl.view
     {
       _projects = value;
       if (_projects != null)
+      {
         _projectsChanged = true;
+        _projects.sort = _sort;
+        _projects.refresh();
+      }
       removeAllChildren();
       invalidateProperties();
       dispatchEvent(new Event("projectsChanged"));
@@ -64,6 +77,26 @@ package com.piaction.dashboard.cruiseControl.view
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
       super.updateDisplayList(unscaledWidth, unscaledHeight);
+    }
+
+    private function compareProjects(a:Object, b:Object, fields:Array = null):int
+    {
+      var proj1:Project = a as Project;
+      var proj2:Project = b as Project;
+
+      if (proj1.activity.equals(ProjectActivityEnum.SLEEPING) && proj1.lastBuildStatus.equals(ProjectStatusEnum.FAILURE))
+        return -1;
+      if (proj2.activity.equals(ProjectActivityEnum.SLEEPING) && proj2.lastBuildStatus.equals(ProjectStatusEnum.FAILURE))
+        return 1;
+      if (proj1.activity.equals(ProjectActivityEnum.BUILDING))
+        return -1;
+      if (proj2.activity.equals(ProjectActivityEnum.BUILDING))
+        return 1;
+      if (proj1.activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS))
+        return -1;
+      if (proj2.activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS))
+        return 1;
+      return 0;
     }
 
   }

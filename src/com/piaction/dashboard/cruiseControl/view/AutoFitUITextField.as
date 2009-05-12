@@ -29,6 +29,7 @@ package com.piaction.dashboard.cruiseControl.view
       {
         _format = getDefaultTextFormat();
       }
+      //defaultTextFormat = _format;
       setTextFormat(_format);
     }
 
@@ -54,6 +55,12 @@ package com.piaction.dashboard.cruiseControl.view
 
     public function fitText(maxLines:uint = 1, toUpper:Boolean = false, targetWidth:Number = -1):uint
     {
+      /*if (text.length == 0)
+      {
+        changeSize(MIN_POINT_SIZE);
+        return MIN_POINT_SIZE;
+      }*/
+
       if (text.length == 0)
       {
         changeSize(MIN_POINT_SIZE);
