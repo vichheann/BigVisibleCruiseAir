@@ -19,7 +19,10 @@
       {
         var timer:Timer = Preferences.getInstance().refreshTimer;
         timer.addEventListener(TimerEvent.TIMER, loadData, false, 0, true);
-        timer.start();
+        if (!timer.running)
+        {
+          timer.start();
+        }
       }
 
       private function loadData(event:TimerEvent=null):void
