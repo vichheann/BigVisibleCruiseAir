@@ -29,5 +29,15 @@ package com.piaction.dashboard.cruiseControl.model
       dateStr = dateStr.replace("T", " ");
       return new Date(Date.parse(dateStr));
     }
+
+    public function isSuccessful():Boolean
+    {
+      return lastBuildStatus.equals(ProjectStatusEnum.SUCCESS) && activity.equals(ProjectActivityEnum.SLEEPING);
+    }
+
+    public function hasFailed():Boolean
+    {
+      return lastBuildStatus.equals(ProjectStatusEnum.FAILURE) && activity.equals(ProjectActivityEnum.SLEEPING);
+    }
   }
 }

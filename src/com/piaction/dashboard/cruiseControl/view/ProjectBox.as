@@ -67,7 +67,7 @@ package com.piaction.dashboard.cruiseControl.view
       if (_projectsChanged)
       {
         var sounds:Array = new Array();
-        var smallSound:Sound = null;
+        var sound:Sound = null;
         var cursor:IViewCursor = _projects.createCursor();
         while(!cursor.afterLast)
         {
@@ -77,23 +77,10 @@ package com.piaction.dashboard.cruiseControl.view
           projectStatusBox.project = project;
           addChild(projectStatusBox);
           cursor.moveNext();
-          if (project.lastBuildStatus.equals(ProjectStatusEnum.FAILURE) && project.activity.equals(ProjectActivityEnum.SLEEPING))
+          sound = updateSound(project);
+          if (sound != null)
           {
-            if (!ArrayUtil.arrayContainsValue(_failedProjects, project.name))
-            {
-              _failedProjects.push(project.name);
-            }
-            smallSound = new klaxonClass() as Sound;
-            sounds.push(smallSound);
-          }
-          else
-          {
-            if (ArrayUtil.arrayContainsValue(_failedProjects, project.name) && project.lastBuildStatus.equals(ProjectStatusEnum.SUCCESS) && project.activity.equals(ProjectActivityEnum.SLEEPING))
-            {
-              smallSound = new applauseClass() as Sound;
-              sounds.push(smallSound);
-              ArrayUtil.removeValueFromArray(_failedProjects, project.name);
-            }
+            sounds.push(sound);
           }
         }
         if (!_muteSound)
@@ -121,6 +108,28 @@ package com.piaction.dashboard.cruiseControl.view
     {
       _muteSound = !_muteSound;
       _muteSound ? button.label = "Sound":button.label = "No Sound";
+    }
+
+    private function updateSound(project:Project):Sound
+    {
+      var sound:Sound = null;
+      if (project.hasFailed())
+      {
+        if (!ArrayUtil.arrayContainsValue(_failedProjects, project.name))
+        {
+          _failedProjects.push(project.name);
+        }
+        sound = new klaxonClass() as Sound;
+      }
+      else
+      {
+        if (ArrayUtil.arrayContainsValue(_failedProjects, project.name) && project.isSuccessful())
+        {
+          sound = new applauseClass() as Sound;
+          ArrayUtil.removeValueFromArray(_failedProjects, project.name);
+        }
+      }
+      return sound;
     }
 
     private function compareProjects(a:Object, b:Object, fields:Array = null):int
