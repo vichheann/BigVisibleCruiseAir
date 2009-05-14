@@ -5,13 +5,9 @@
       import mx.events.ValidationResultEvent;
       import mx.managers.PopUpManager;
       import com.piaction.dashboard.cruiseControl.model.Preferences;
-      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
 
       [Bindable]
-      public var url:String;
-
-      [Bindable]
-      public var refreshInterval:int;
+      public var preferences:Preferences;
 
       private function close():void
       {
@@ -23,7 +19,6 @@
         var vResult:ValidationResultEvent = urlValidator.validate();
         if (vResult.type == ValidationResultEvent.VALID)
         {
-          var preferences:Preferences = Preferences.getInstance();
           preferences.dashboardUrl = urlText.text;
           preferences.refreshInterval = refreshIntervalSlider.value;
           close();
@@ -37,12 +32,12 @@
   <mx:Form width="100%" height="100%">
     <mx:FormHeading label="Configuration"/>
     <mx:FormItem label="Cruise control URL" width="100%">
-      <mx:TextInput id="urlText" width="100%" text="{url}"/>
+      <mx:TextInput id="urlText" width="100%" text="{preferences.dashboardUrl}"/>
     </mx:FormItem>
     <mx:FormItem label="Refresh (s)" width="100%">
       <mx:HSlider id="refreshIntervalSlider" width="100%"
                   allowTrackClick="true" minimum="30" maximum="300" liveDragging="true" snapInterval="30" tickInterval="30"
-                  value="{refreshInterval}"
+                  value="{preferences.refreshInterval}"
                   labels="['30s', '300s']"/>
     </mx:FormItem>
   </mx:Form>

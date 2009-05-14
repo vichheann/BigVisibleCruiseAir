@@ -7,15 +7,8 @@
       import com.piaction.dashboard.cruiseControl.repository.CruiseControlRepository;
       import com.piaction.dashboard.cruiseControl.events.MessageEvent;
       import com.piaction.dashboard.cruiseControl.model.Preferences;
-      import com.piaction.dashboard.cruiseControl.view.Stage;
+      import com.piaction.dashboard.cruiseControl.view.ViewController;
 
-      private function setup():void
-      {
-        //Preferences.getInstance().dashboardUrl = "http://ubuntu1/cruiseControl/dashboard.php";
-        Preferences.getInstance().dashboardUrl = "file://localhost/Users/vichheann/work/tmp/cctray.xml";
-        Preferences.getInstance().fullScreen = false;
-        Preferences.getInstance().refreshInterval = 30;
-      }
     ]]>
   </mx:Script>
   <mate:Debugger level="{Debugger.ALL}"/>
@@ -23,31 +16,35 @@
   <mx:HTTPService id="service" resultFormat="e4x"/>
 
   <mate:EventHandlers type="{FlexEvent.APPLICATION_COMPLETE}">
-    <mate:InlineInvoker method="setup"/>
+    <!--mate:ObjectBuilder generator="{Preferences}" constructorArguments="{['http://ubuntu1/cruiseControl/dashboard.php']}" registerTarget="true"/-->
+    <mate:ObjectBuilder generator="{Preferences}" constructorArguments="{['file://localhost/Users/vichheann/work/tmp/cctray.xml']}" registerTarget="true"/>
+    <mate:ObjectBuilder generator="{ViewController}" registerTarget="true">
+      <mate:Properties rootStage="{Application.application}" preferences="{Preferences}" />
+    </mate:ObjectBuilder>
   </mate:EventHandlers>
 
   <mate:EventHandlers type="{MessageEvent.FULLSCREEN}" debug="true">
-    <mate:MethodInvoker generator="{com.piaction.dashboard.cruiseControl.view.Stage}" method="switchFullScreen" arguments="{Application.application}"/>
+    <mate:MethodInvoker generator="{ViewController}" method="switchFullScreen"/>
   </mate:EventHandlers>
 
   <mate:EventHandlers type="{MessageEvent.LOAD_DATA}" debug="true">
+    <mate:DataCopier destination="data" destinationKey="url" source="{Preferences}" sourceKey="dashboardUrl"/>
     <!-- call the remoting service -->
-    <mate:HTTPServiceInvoker instance="{service}" url="{Preferences.getInstance().dashboardUrl}">
-        <!-- result sequence gets executed when service returns with a result -->
-        <mate:resultHandlers>
-          <mate:MethodInvoker generator="{CruiseControlRepository}" method="getProjectStatus" arguments="{resultObject}" />
-        </mate:resultHandlers>
-        <!-- server fault -->
-        <mate:faultHandlers>
-          <mate:ServiceResponseAnnouncer type="fault"/>
-        </mate:faultHandlers>
+    <mate:HTTPServiceInvoker instance="{service}" url="{data.url}">
+      <!-- result sequence gets executed when service returns with a result -->
+      <mate:resultHandlers>
+        <mate:MethodInvoker generator="{CruiseControlRepository}" method="getProjectStatus" arguments="{resultObject}" />
+      </mate:resultHandlers>
+      <!-- server fault -->
+      <mate:faultHandlers>
+        <mate:ServiceResponseAnnouncer type="fault"/>
+      </mate:faultHandlers>
     </mate:HTTPServiceInvoker>
   </mate:EventHandlers>
 
   <mate:EventHandlers type="{MessageEvent.SHOW_CONFIGURATION}" debug="true">
-    <mate:MethodInvoker generator="{com.piaction.dashboard.cruiseControl.view.Stage}" method="showConfigurationScreen" arguments="{Application.application}"/>
+    <mate:MethodInvoker generator="{ViewController}" method="showConfigurationScreen"/>
   </mate:EventHandlers>
-
 
   <mate:Injectors target="{BigVisibleCruise}" debug="true">
     <mate:PropertyInjector targetKey="projects" source="{CruiseControlRepository}" sourceKey="projects" />

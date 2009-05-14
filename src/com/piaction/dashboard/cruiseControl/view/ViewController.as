@@ -6,27 +6,29 @@ package com.piaction.dashboard.cruiseControl.view
 
   import mx.managers.PopUpManager;
 
-  public class Stage
+  public class ViewController
   {
-    public function Stage()
+    public var rootStage:BigVisibleCruise;
+    public var preferences:Preferences;
+
+    public function ViewController(rootStage:BigVisibleCruise=null, preferences:Preferences=null)
     {
       super();
+      this.rootStage = rootStage;
+      this.preferences = preferences;
     }
 
-    public function switchFullScreen(rootStage:BigVisibleCruise):void
+    public function switchFullScreen():void
     {
-      var preferences:Preferences = Preferences.getInstance();
       preferences.fullScreen = !preferences.fullScreen;
       rootStage.stage.displayState = preferences.fullScreen ? StageDisplayState.FULL_SCREEN_INTERACTIVE:StageDisplayState.NORMAL;
     }
 
-    public function showConfigurationScreen(rootStage:BigVisibleCruise):void
+    public function showConfigurationScreen():void
     {
-      var preferences:Preferences = Preferences.getInstance();
       var popup:ConfigurationWindow = PopUpManager.createPopUp(rootStage, ConfigurationWindow, true) as ConfigurationWindow;
       PopUpManager.centerPopUp(popup);
-      popup.url = preferences.dashboardUrl;
-      popup.refreshInterval = preferences.refreshInterval;
+      popup.preferences = preferences;
     }
   }
 }

@@ -1,5 +1,9 @@
 package com.piaction.dashboard.cruiseControl.model
 {
+  import com.asfusion.mate.events.Dispatcher;
+  import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+
+  import flash.events.TimerEvent;
   import flash.utils.Timer;
 
   [Bindable]
@@ -8,34 +12,43 @@ package com.piaction.dashboard.cruiseControl.model
     public var dashboardUrl:String;
     public var fullScreen:Boolean;
 
-    public var refreshTimer:Timer = new Timer(30000);
+    private var _refreshTimer:Timer;
+    private var _dispatcher:Dispatcher;
+
+    public function Preferences(dashboardUrl:String, fullScreen:Boolean = false, refreshInterval:int = 30000):void
+    {
+      this.dashboardUrl = dashboardUrl;
+      this.fullScreen = fullScreen;
+      _refreshTimer = new Timer(refreshInterval);
+      _refreshTimer.addEventListener(TimerEvent.TIMER, dispatchTimer, false, 0, true);
+      _refreshTimer.start();
+      _dispatcher = new Dispatcher();
+    }
 
     [Bindable("refreshIntervalChanged")]
     public function get refreshInterval():int
     {
-      return refreshTimer.delay / 1000;
+      return _refreshTimer.delay / 1000;
     }
     public function set refreshInterval(value:int):void
     {
       var restart:Boolean;
-      if (refreshTimer.running)
+      if (_refreshTimer.running)
       {
-        refreshTimer.stop();
+        _refreshTimer.stop();
         restart = true;
       }
-      refreshTimer.delay = value * 1000;
+      _refreshTimer.delay = value * 1000;
       if (restart)
       {
-        refreshTimer.start();
+        _refreshTimer.start();
       }
       dispatchEvent(new Event("refreshIntervalChanged"));
     }
 
-    private static var _instance:Preferences = new Preferences();
-
-    public static function getInstance():Preferences
+    private function dispatchTimer(event:TimerEvent):void
     {
-      return _instance;
+      _dispatcher.dispatchEvent(new MessageEvent(MessageEvent.REFRESH, true));
     }
   }
 }

@@ -1,20 +1,31 @@
 package com.piaction.dashboard.cruiseControl.view
 {
+  import com.adobe.utils.ArrayUtil;
   import com.piaction.dashboard.cruiseControl.model.Project;
   import com.piaction.dashboard.cruiseControl.model.ProjectActivityEnum;
   import com.piaction.dashboard.cruiseControl.model.ProjectStatusEnum;
 
   import flash.events.Event;
+  import flash.media.Sound;
 
   import mx.collections.ICollectionView;
   import mx.collections.IViewCursor;
   import mx.collections.Sort;
   import mx.collections.SortField;
   import mx.containers.VBox;
+  import mx.controls.Button;
 
   public class ProjectBox extends VBox
   {
     private var _sort:Sort;
+    private var _failedProjects:Array = new Array();
+    private var _muteSound:Boolean;
+
+    [Embed(source="assets/klaxon.mp3")]
+    public var klaxonClass:Class;
+
+    [Embed(source="assets/applause.mp3")]
+    public var applauseClass:Class;
 
     public function ProjectBox()
     {
@@ -55,6 +66,8 @@ package com.piaction.dashboard.cruiseControl.view
       super.commitProperties();
       if (_projectsChanged)
       {
+        var sounds:Array = new Array();
+        var smallSound:Sound = null;
         var cursor:IViewCursor = _projects.createCursor();
         while(!cursor.afterLast)
         {
@@ -64,6 +77,31 @@ package com.piaction.dashboard.cruiseControl.view
           projectStatusBox.project = project;
           addChild(projectStatusBox);
           cursor.moveNext();
+          if (project.lastBuildStatus.equals(ProjectStatusEnum.FAILURE) && project.activity.equals(ProjectActivityEnum.SLEEPING))
+          {
+            if (!ArrayUtil.arrayContainsValue(_failedProjects, project.name))
+            {
+              _failedProjects.push(project.name);
+            }
+            smallSound = new klaxonClass() as Sound;
+            sounds.push(smallSound);
+          }
+          else
+          {
+            if (ArrayUtil.arrayContainsValue(_failedProjects, project.name) && project.lastBuildStatus.equals(ProjectStatusEnum.SUCCESS) && project.activity.equals(ProjectActivityEnum.SLEEPING))
+            {
+              smallSound = new applauseClass() as Sound;
+              sounds.push(smallSound);
+              ArrayUtil.removeValueFromArray(_failedProjects, project.name);
+            }
+          }
+        }
+        if (!_muteSound)
+        {
+          for (var i:int = 0; i < sounds.length; i++)
+          {
+            sounds[i].play();
+          }
         }
         _projectsChanged = false;
       }
@@ -77,6 +115,12 @@ package com.piaction.dashboard.cruiseControl.view
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
       super.updateDisplayList(unscaledWidth, unscaledHeight);
+    }
+
+    public function muteSound(button:Button):void
+    {
+      _muteSound = !_muteSound;
+      _muteSound ? button.label = "Sound":button.label = "No Sound";
     }
 
     private function compareProjects(a:Object, b:Object, fields:Array = null):int
