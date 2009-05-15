@@ -21,10 +21,10 @@ package com.piaction.dashboard.cruiseControl.view
     private var _failedProjects:Array = new Array();
     private var _muteSound:Boolean;
 
-    [Embed(source="assets/klaxon.mp3")]
+    [Embed(source="/assets/klaxon.mp3")]
     public var klaxonClass:Class;
 
-    [Embed(source="assets/applause.mp3")]
+    [Embed(source="/assets/applause.mp3")]
     public var applauseClass:Class;
 
     public function ProjectBox()

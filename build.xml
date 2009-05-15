@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="BigVisibleCruise" default="compile">
+  <description>
+  </description>
+  <property name="src.dir" value="${basedir}/src" />
+  <property name="lib.dir" value="${basedir}/libs" />
+  <property name="out.dir" value="${basedir}/bin-release" />
+  <property name="dbg.dir" value="${basedir}/bin-debug" />
+  <property name="dist.dir" value="${basedir}/dist" />
+  <property name="OPTIMIZE" value="true" />
+  <property name="DEBUG" value="false" />
+  <property name="FLEX_HOME" value="/Users/vichheann/work/tools/flex_sdk_3.3.0" />
+  <property name="ADL" value="${FLEX_HOME}/bin/adl" />
+  <property name="ADT.JAR" value="${FLEX_HOME}/lib/adt.jar" />
+  <property name="APP_NAME" value="BigVisibleCruise" />
+  <property name="APP_DESCRIPTOR" value="${APP_NAME}-app.xml" />
+  <property name="AIR_NAME" value="${APP_NAME}.air" />
+  <property name="STORETYPE" value="pkcs12" />
+  <property name="KEYSTORE" value="${user.home}/Documents/air.p12" />
+  <property name="KEYSTORE_PASSWORD" value="air" />
+
+  <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+  <target name="init">
+    <mkdir dir="${out.dir}" />
+    <mkdir dir="${dbg.dir}" />
+    <mkdir dir="${dist.dir}" />
+  </target>
+
+  <target name="compile" depends="init" description="description">
+    <!-- compile main SWF -->
+    <mxmlc file="${src.dir}/${APP_NAME}.mxml"
+           output="${out.dir}/${APP_NAME}.swf"
+           debug="${DEBUG}"
+           optimize="${OPTIMIZE}"
+           link-report="${out.dir}/report.xml"
+           locale="en_US"
+           configname="air">
+      <source-path path-element="${src.dir}" />
+      <library-path dir="${FLEX_HOME}/frameworks/libs" append="true">
+        <include name="*.swc" />
+      </library-path>
+      <library-path dir="${FLEX_HOME}/frameworks/libs/air" append="true">
+        <include name="*.swc" />
+      </library-path>
+      <library-path dir="${FLEX_HOME}/frameworks/locale" append="true">
+        <include name="{locale}" />
+      </library-path>
+      <library-path dir="${lib.dir}" append="true">
+        <include name="*.swc" />
+      </library-path>
+    </mxmlc>
+    <copy todir="${out.dir}" overwrite="true">
+      <fileset dir="${src.dir}">
+        <include name="icons/**/*.*" />
+        <include name="${APP_DESCRIPTOR}" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="air" depends="compile">
+    <java taskName="adt" jar="${ADT.JAR}" fork="true" failonerror="true" dir="${out.dir}">
+      <arg value="-package" />
+      <arg value="-storetype" />
+      <arg value="${STORETYPE}" />
+      <arg value="-keystore" />
+      <arg value="${KEYSTORE}" />
+      <arg value="-storepass" />
+      <arg value="${KEYSTORE_PASSWORD}" />
+      <arg value="${dist.dir}/${AIR_NAME}" />
+      <arg value="${APP_DESCRIPTOR}" />
+      <arg value="${APP_NAME}.swf" />
+      <arg value="icons/ksysv128.png" />
+    </java>
+  </target>
+
+  <target name="run" depends="compile">
+    <exec taskName="adl" executable="${ADL}" dir="${out.dir}">
+      <arg value="${APP_DESCRIPTOR}" />
+    </exec>
+  </target>
+
+  <target name="clean" description="clean up">
+    <delete dir="${out.dir}" />
+    <delete dir="${dbg.dir}" />
+    <delete dir="${dist.dir}" />
+  </target>
+</project>
