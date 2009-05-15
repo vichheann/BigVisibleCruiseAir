@@ -32,12 +32,47 @@ package com.piaction.dashboard.cruiseControl.model
 
     public function isSuccessful():Boolean
     {
-      return lastBuildStatus.equals(ProjectStatusEnum.SUCCESS) && activity.equals(ProjectActivityEnum.SLEEPING);
+      return lastStatusIsSuccess() && isSleeping();
     }
 
     public function hasFailed():Boolean
     {
-      return lastBuildStatus.equals(ProjectStatusEnum.FAILURE) && activity.equals(ProjectActivityEnum.SLEEPING);
+      return (lastStatusIsFailure() || lastStatusIsException()) && isSleeping();
+    }
+
+    public function isSleeping():Boolean
+    {
+      return activity.equals(ProjectActivityEnum.SLEEPING);
+    }
+
+    public function isBuilding():Boolean
+    {
+      return activity.equals(ProjectActivityEnum.BUILDING);
+    }
+
+    public function isCheckingModifications():Boolean
+    {
+      return activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS);
+    }
+
+    public function lastStatusIsSuccess():Boolean
+    {
+      return lastBuildStatus.equals(ProjectStatusEnum.SUCCESS);
+    }
+
+    public function lastStatusIsFailure():Boolean
+    {
+      return lastBuildStatus.equals(ProjectStatusEnum.FAILURE);
+    }
+
+    public function lastStatusIsException():Boolean
+    {
+      return lastBuildStatus.equals(ProjectStatusEnum.EXCEPTION);
+    }
+
+    public function lastStatusIsUnknown():Boolean
+    {
+      return lastBuildStatus.equals(ProjectStatusEnum.UNKNOWN);
     }
   }
 }

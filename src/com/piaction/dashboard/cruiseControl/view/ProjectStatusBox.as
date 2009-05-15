@@ -90,21 +90,25 @@ package com.piaction.dashboard.cruiseControl.view
 
     private function getBackgroundColor(project:Project):ColorEnum
     {
-      if (project.activity.equals(ProjectActivityEnum.SLEEPING))
+      if (project.isSuccessful())
       {
-        if (project.lastBuildStatus.equals(ProjectStatusEnum.UNKNOWN))
-          return ColorEnum.WHITE;
-        if (project.lastBuildStatus.equals(ProjectStatusEnum.SUCCESS))
-          return ColorEnum.GREEN;
+        return ColorEnum.GREEN;
+      }
+      if (project.hasFailed())
+      {
         return ColorEnum.RED;
       }
-      if (project.activity.equals(ProjectActivityEnum.BUILDING))
+      if (project.isBuilding())
       {
         return ColorEnum.YELLOW;
       }
-      if (project.activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS))
+      if (project.isCheckingModifications())
       {
         return ColorEnum.ORANGE;
+      }
+      if (project.isSleeping() && project.lastStatusIsUnknown())
+      {
+        return ColorEnum.WHITE;
       }
       return ColorEnum.BLACK;
     }

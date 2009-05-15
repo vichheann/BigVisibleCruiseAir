@@ -15,9 +15,9 @@
 
   <mx:HTTPService id="service" resultFormat="e4x"/>
 
-  <mate:EventHandlers type="{FlexEvent.APPLICATION_COMPLETE}">
-    <!--mate:ObjectBuilder generator="{Preferences}" constructorArguments="{['http://ubuntu1/cruiseControl/dashboard.php']}" registerTarget="true"/-->
-    <mate:ObjectBuilder generator="{Preferences}" constructorArguments="{['file://localhost/Users/vichheann/work/tmp/cctray.xml']}" registerTarget="true"/>
+  <mate:EventHandlers type="{FlexEvent.APPLICATION_COMPLETE}" debug="true">
+    <mate:ObjectBuilder generator="{Preferences}" constructorArguments="{['http://ubuntu1/cruiseControl/dashboard.php']}" registerTarget="true"/>
+    <!--mate:ObjectBuilder generator="{Preferences}" constructorArguments="{['file://localhost/Users/vichheann/work/tmp/cctray.xml']}" registerTarget="true"/-->
     <mate:ObjectBuilder generator="{ViewController}" registerTarget="true">
       <mate:Properties rootStage="{Application.application}" preferences="{Preferences}" />
     </mate:ObjectBuilder>

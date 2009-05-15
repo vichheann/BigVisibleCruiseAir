@@ -107,7 +107,7 @@ package com.piaction.dashboard.cruiseControl.view
     public function muteSound(button:Button):void
     {
       _muteSound = !_muteSound;
-      _muteSound ? button.label = "Sound":button.label = "No Sound";
+      _muteSound ? button.label = "Alarme":button.label = "Sans Alarme";
     }
 
     private function updateSound(project:Project):Sound
@@ -137,17 +137,17 @@ package com.piaction.dashboard.cruiseControl.view
       var proj1:Project = a as Project;
       var proj2:Project = b as Project;
 
-      if (proj1.activity.equals(ProjectActivityEnum.SLEEPING) && proj1.lastBuildStatus.equals(ProjectStatusEnum.FAILURE))
+      if (proj1.hasFailed())
         return -1;
-      if (proj2.activity.equals(ProjectActivityEnum.SLEEPING) && proj2.lastBuildStatus.equals(ProjectStatusEnum.FAILURE))
+      if (proj2.hasFailed())
         return 1;
-      if (proj1.activity.equals(ProjectActivityEnum.BUILDING))
+      if (proj1.isBuilding())
         return -1;
-      if (proj2.activity.equals(ProjectActivityEnum.BUILDING))
+      if (proj2.isBuilding())
         return 1;
-      if (proj1.activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS))
+      if (proj1.isCheckingModifications())
         return -1;
-      if (proj2.activity.equals(ProjectActivityEnum.CHECKING_MODIFICATIONS))
+      if (proj2.isCheckingModifications())
         return 1;
       return 0;
     }

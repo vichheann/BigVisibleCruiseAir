@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="400" height="250" title="Configuration">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="500" height="250" title="Configuration">
   <mx:Script>
     <![CDATA[
       import mx.events.ValidationResultEvent;
@@ -11,7 +11,7 @@
 
       private function close():void
       {
-        PopUpManager.removePopUp(this);
+        this.visible = false;
       }
 
       private function update():void
@@ -30,19 +30,19 @@
   <mx:RegExpValidator id="urlValidator" expression="[http|file]://([a-z0-9_-]+)/(.*)" flags="ig"
                       source="{urlText}" property="text" listener="{urlText}"/>
   <mx:Form width="100%" height="100%">
-    <mx:FormHeading label="Configuration"/>
+    <mx:FormHeading label="Préférences"/>
     <mx:FormItem label="Cruise control URL" width="100%">
       <mx:TextInput id="urlText" width="100%" text="{preferences.dashboardUrl}"/>
     </mx:FormItem>
-    <mx:FormItem label="Refresh (s)" width="100%">
+    <mx:FormItem label="Refresh (sec)" width="100%">
       <mx:HSlider id="refreshIntervalSlider" width="100%"
                   allowTrackClick="true" minimum="30" maximum="300" liveDragging="true" snapInterval="30" tickInterval="30"
                   value="{preferences.refreshInterval}"
-                  labels="['30s', '300s']"/>
+                  labels="['30', '60', '90', '120', '150', '180', '210', '240', '270', '300']"/>
     </mx:FormItem>
   </mx:Form>
   <mx:ControlBar width="100%" horizontalAlign="right">
-    <mx:Button id="cancel" label="Annuler" click="close()"/>
-    <mx:Button id="submit" label="Ok" click="update();"/>
+    <mx:LinkButton id="cancel" label="Annuler" click="close()"/>
+    <mx:Button id="submit" label="Enregistrer" click="update();"/>
   </mx:ControlBar>
 </mx:TitleWindow>

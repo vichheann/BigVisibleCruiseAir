@@ -11,18 +11,17 @@ package com.piaction.dashboard.cruiseControl.model
   {
     public var dashboardUrl:String;
     public var fullScreen:Boolean;
+    public var dispatcher:Dispatcher = new Dispatcher();
 
     private var _refreshTimer:Timer;
-    private var _dispatcher:Dispatcher;
 
     public function Preferences(dashboardUrl:String, fullScreen:Boolean = false, refreshInterval:int = 30000):void
     {
       this.dashboardUrl = dashboardUrl;
       this.fullScreen = fullScreen;
       _refreshTimer = new Timer(refreshInterval);
-      _refreshTimer.addEventListener(TimerEvent.TIMER, dispatchTimer, false, 0, true);
+      _refreshTimer.addEventListener(TimerEvent.TIMER, dispatchRefresh, false, 0, true);
       _refreshTimer.start();
-      _dispatcher = new Dispatcher();
     }
 
     [Bindable("refreshIntervalChanged")]
@@ -46,9 +45,9 @@ package com.piaction.dashboard.cruiseControl.model
       dispatchEvent(new Event("refreshIntervalChanged"));
     }
 
-    private function dispatchTimer(event:TimerEvent):void
+    public function dispatchRefresh(event:TimerEvent=null):void
     {
-      _dispatcher.dispatchEvent(new MessageEvent(MessageEvent.REFRESH, true));
+      dispatcher.dispatchEvent(new MessageEvent(MessageEvent.REFRESH, true));
     }
   }
 }
