@@ -2,6 +2,7 @@
 <project name="BigVisibleCruise" default="compile">
   <description>
   </description>
+  <property file="${user.home}/.ant-global.properties" prefix="GLOBAL"/>
   <property name="src.dir" value="${basedir}/src" />
   <property name="lib.dir" value="${basedir}/libs" />
   <property name="out.dir" value="${basedir}/bin-release" />
@@ -9,25 +10,24 @@
   <property name="dist.dir" value="${basedir}/dist" />
   <property name="OPTIMIZE" value="true" />
   <property name="DEBUG" value="false" />
-  <property name="FLEX_HOME" value="/Users/vichheann/work/tools/flex_sdk_3.3.0" />
+  <property name="FLEX_HOME" value="${GLOBAL.flex_sdk_3}" />
   <property name="ADL" value="${FLEX_HOME}/bin/adl" />
   <property name="ADT.JAR" value="${FLEX_HOME}/lib/adt.jar" />
   <property name="APP_NAME" value="BigVisibleCruise" />
   <property name="APP_DESCRIPTOR" value="${APP_NAME}-app.xml" />
   <property name="AIR_NAME" value="${APP_NAME}.air" />
   <property name="STORETYPE" value="pkcs12" />
-  <property name="KEYSTORE" value="${user.home}/Documents/air.p12" />
-  <property name="KEYSTORE_PASSWORD" value="air" />
+  <property name="KEYSTORE" value="${GLOBAL.air.keystore}" />
+  <property name="KEYSTORE_PASSWORD" value="${GLOBAL.air.keystore.password}" />
 
   <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
   <target name="init">
     <mkdir dir="${out.dir}" />
     <mkdir dir="${dbg.dir}" />
-    <mkdir dir="${dist.dir}" />
   </target>
 
-  <target name="compile" depends="init" description="description">
+  <target name="compile" depends="init" description="compile">
     <!-- compile main SWF -->
     <mxmlc file="${src.dir}/${APP_NAME}.mxml"
            output="${out.dir}/${APP_NAME}.swf"
@@ -50,15 +50,16 @@
         <include name="*.swc" />
       </library-path>
     </mxmlc>
+  </target>
+
+  <target name="air" depends="compile" description="air">
+    <mkdir dir="${dist.dir}" />
     <copy todir="${out.dir}" overwrite="true">
       <fileset dir="${src.dir}">
         <include name="icons/**/*.*" />
         <include name="${APP_DESCRIPTOR}" />
       </fileset>
     </copy>
-  </target>
-
-  <target name="air" depends="compile">
     <java taskName="adt" jar="${ADT.JAR}" fork="true" failonerror="true" dir="${out.dir}">
       <arg value="-package" />
       <arg value="-storetype" />
@@ -74,7 +75,7 @@
     </java>
   </target>
 
-  <target name="run" depends="compile">
+  <target name="run" depends="compile" description="run">
     <exec taskName="adl" executable="${ADL}" dir="${out.dir}">
       <arg value="${APP_DESCRIPTOR}" />
     </exec>
