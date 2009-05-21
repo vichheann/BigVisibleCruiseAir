@@ -25,6 +25,7 @@
       }
     ]]>
   </mx:Script>
+  <mx:Style source="airstyle.css"/>
   <mx:Style source="style.css"/>
   <maps:MainEventMap />
   <mate:Listener type="{MessageEvent.REFRESH}" receive="loadData()"/>

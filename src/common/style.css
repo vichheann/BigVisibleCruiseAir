@@ -1,10 +1,4 @@
 /* CSS file */
-WindowedApplication {
-  background-color: black;
-  padding-top: 1;
-  padding-bottom: 1;
-}
-
 .success {
   background-color: green;
 }

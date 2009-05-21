@@ -29,14 +29,15 @@
 
   <target name="compile" depends="init" description="compile">
     <!-- compile main SWF -->
-    <mxmlc file="${src.dir}/${APP_NAME}.mxml"
+    <mxmlc file="${src.dir}/air/${APP_NAME}.mxml"
            output="${out.dir}/${APP_NAME}.swf"
            debug="${DEBUG}"
            optimize="${OPTIMIZE}"
            link-report="${out.dir}/report.xml"
            locale="en_US"
            configname="air">
-      <source-path path-element="${src.dir}" />
+      <source-path path-element="${src.dir}/air" />
+      <source-path path-element="${src.dir}/common" />
       <library-path dir="${FLEX_HOME}/frameworks/libs" append="true">
         <include name="*.swc" />
       </library-path>
