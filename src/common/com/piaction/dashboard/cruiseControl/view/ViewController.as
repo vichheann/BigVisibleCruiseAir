@@ -6,8 +6,10 @@ package com.piaction.dashboard.cruiseControl.view
   import flash.events.KeyboardEvent;
   import flash.ui.Keyboard;
 
+  import mx.controls.Alert;
   import mx.core.Application;
   import mx.managers.PopUpManager;
+  import mx.rpc.Fault;
 
   public class ViewController
   {
@@ -50,6 +52,11 @@ package com.piaction.dashboard.cruiseControl.view
       _configurationPopup.visible = true;
       _configurationPopup.preferences = preferences;
       PopUpManager.centerPopUp(_configurationPopup);
+    }
+
+    public function showError(fault:Fault):void
+    {
+      Alert.show(fault.message, "Problem");
     }
 
     private function createPopUp():void

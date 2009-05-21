@@ -38,7 +38,8 @@
       </mate:resultHandlers>
       <!-- server fault -->
       <mate:faultHandlers>
-        <mate:ServiceResponseAnnouncer type="fault"/>
+        <!--mate:ServiceResponseAnnouncer type="fault"/-->
+        <mate:MethodInvoker generator="{ViewController}" method="showError" arguments="{fault}" />
       </mate:faultHandlers>
     </mate:HTTPServiceInvoker>
   </mate:EventHandlers>

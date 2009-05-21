@@ -30,6 +30,7 @@
 
   <target name="compile-air" depends="init" description="compile">
     <compile-swf />
+    <copy file="${src.dir}/air/${APP_DESCRIPTOR}" todir="${out.dir}" overwrite="true"/>
   </target>
 
   <target name="air" depends="compile-air" description="air">
@@ -37,7 +38,6 @@
     <copy todir="${out.dir}" overwrite="true">
       <fileset dir="${src.dir}">
         <include name="icons/**/*.*" />
-        <include name="${APP_DESCRIPTOR}" />
       </fileset>
     </copy>
     <java taskName="adt" jar="${ADT.JAR}" fork="true" failonerror="true" dir="${out.dir}">
