@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="BigVisibleCruise" default="compile">
+<project name="BigVisibleCruise" default="compile-air">
   <description>
   </description>
   <property file="${user.home}/.ant-global.properties" prefix="GLOBAL"/>
@@ -7,7 +7,8 @@
   <property name="lib.dir" value="${basedir}/libs" />
   <property name="out.dir" value="${basedir}/bin-release" />
   <property name="dbg.dir" value="${basedir}/bin-debug" />
-  <property name="dist.dir" value="${basedir}/dist" />
+  <property name="dist.dir" value="${basedir}/bin-dist" />
+  <property name="deploy.dir" value="${basedir}/bin-deploy" />
   <property name="OPTIMIZE" value="true" />
   <property name="DEBUG" value="false" />
   <property name="FLEX_HOME" value="${GLOBAL.flex_sdk_3}" />
@@ -27,33 +28,11 @@
     <mkdir dir="${dbg.dir}" />
   </target>
 
-  <target name="compile" depends="init" description="compile">
-    <!-- compile main SWF -->
-    <mxmlc file="${src.dir}/air/${APP_NAME}.mxml"
-           output="${out.dir}/${APP_NAME}.swf"
-           debug="${DEBUG}"
-           optimize="${OPTIMIZE}"
-           link-report="${out.dir}/report.xml"
-           locale="en_US"
-           configname="air">
-      <source-path path-element="${src.dir}/air" />
-      <source-path path-element="${src.dir}/common" />
-      <library-path dir="${FLEX_HOME}/frameworks/libs" append="true">
-        <include name="*.swc" />
-      </library-path>
-      <library-path dir="${FLEX_HOME}/frameworks/libs/air" append="true">
-        <include name="*.swc" />
-      </library-path>
-      <library-path dir="${FLEX_HOME}/frameworks/locale" append="true">
-        <include name="{locale}" />
-      </library-path>
-      <library-path dir="${lib.dir}" append="true">
-        <include name="*.swc" />
-      </library-path>
-    </mxmlc>
+  <target name="compile-air" depends="init" description="compile">
+    <compile-swf />
   </target>
 
-  <target name="air" depends="compile" description="air">
+  <target name="air" depends="compile-air" description="air">
     <mkdir dir="${dist.dir}" />
     <copy todir="${out.dir}" overwrite="true">
       <fileset dir="${src.dir}">
@@ -76,15 +55,63 @@
     </java>
   </target>
 
-  <target name="run" depends="compile" description="run">
+  <target name="run" depends="compile-air" description="run">
     <exec taskName="adl" executable="${ADL}" dir="${out.dir}">
       <arg value="${APP_DESCRIPTOR}" />
     </exec>
   </target>
 
+  <target name="compile-flex" depends="init" description="compile">
+    <mkdir dir="${deploy.dir}" />
+    <compile-swf configName="flex" source="${src.dir}/flex" output="${deploy.dir}"/>
+    <html-wrapper title="${ant.project.name}"
+                  file="index.html"
+                  height="100%"
+                  width="100%"
+                  application="${APP_NAME}"
+                  swf="${APP_NAME}"
+                  template="express-installation"
+                  output="${deploy.dir}"/>
+  </target>
+
+  <!-- = = = = = = = = = = = = = = = = =
+          macrodef: compile-swf
+         = = = = = = = = = = = = = = = = = -->
+  <macrodef name="compile-swf">
+    <attribute name="appName" default="${APP_NAME}" />
+    <attribute name="configName" default="air" />
+    <attribute name="source" default="${src.dir}/air" />
+    <attribute name="output" default="${out.dir}" />
+    <sequential>
+      <mxmlc file="@{source}/@{appName}.mxml"
+             output="@{output}/@{appName}.swf"
+             debug="${DEBUG}"
+             optimize="${OPTIMIZE}"
+             link-report="@{output}/report.xml"
+             locale="en_US"
+             configname="@{configName}">
+        <source-path path-element="@{source}" />
+        <source-path path-element="${src.dir}/common" />
+        <library-path dir="${FLEX_HOME}/frameworks/libs" append="true">
+          <include name="*.swc" />
+        </library-path>
+        <library-path dir="${FLEX_HOME}/frameworks/libs/air" append="true">
+          <include name="*.swc" />
+        </library-path>
+        <library-path dir="${FLEX_HOME}/frameworks/locale" append="true">
+          <include name="{locale}" />
+        </library-path>
+        <library-path dir="${lib.dir}" append="true">
+          <include name="*.swc" />
+        </library-path>
+      </mxmlc>
+    </sequential>
+  </macrodef>
+
   <target name="clean" description="clean up">
     <delete dir="${out.dir}" />
     <delete dir="${dbg.dir}" />
     <delete dir="${dist.dir}" />
+    <delete dir="${deploy.dir}" />
   </target>
 </project>
