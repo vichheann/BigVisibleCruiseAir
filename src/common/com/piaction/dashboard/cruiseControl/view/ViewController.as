@@ -1,28 +1,30 @@
 package com.piaction.dashboard.cruiseControl.view
 {
-  import com.piaction.dashboard.cruiseControl.events.MessageEvent;
   import com.piaction.dashboard.cruiseControl.model.Preferences;
 
   import flash.display.StageDisplayState;
   import flash.events.KeyboardEvent;
   import flash.ui.Keyboard;
 
+  import mx.core.Application;
   import mx.managers.PopUpManager;
 
   public class ViewController
   {
     public var preferences:Preferences;
+    public var main:MainComponent;
     private var _configurationPopup:ConfigurationWindow;
 
-    public function ViewController(rootStage:BigVisibleCruise=null, preferences:Preferences=null)
+    public function ViewController(rootStage:BigVisibleCruise=null, main:MainComponent=null, preferences:Preferences=null)
     {
       super();
       this.rootStage = rootStage;
+      this.main = main;
       this.preferences = preferences;
     }
 
-    private var _rootStage:BigVisibleCruise;
-    public function set rootStage(rootStage:BigVisibleCruise):void
+    private var _rootStage:Application;
+    public function set rootStage(rootStage:Application):void
     {
       _rootStage = rootStage;
       if (_rootStage != null)
@@ -31,7 +33,7 @@ package com.piaction.dashboard.cruiseControl.view
       }
     }
 
-    public function get rootStage():BigVisibleCruise
+    public function get rootStage():Application
     {
       return _rootStage;
     }
@@ -81,7 +83,7 @@ package com.piaction.dashboard.cruiseControl.view
       }
       else if (event.shiftKey && event.keyCode == Keyboard.S)
       {
-        _rootStage.checkSound();
+        main.checkSound();
       }
     }
   }
