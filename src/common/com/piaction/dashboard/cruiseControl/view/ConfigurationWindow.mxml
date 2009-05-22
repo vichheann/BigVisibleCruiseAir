@@ -27,7 +27,7 @@
 
     ]]>
   </mx:Script>
-  <mx:RegExpValidator id="urlValidator" expression="[http|file]://([a-z0-9_-]+)/(.*)" flags="ig"
+  <mx:RegExpValidator id="urlValidator" expression="[http|file]://([a-z0-9_\-.]+)+(:[0-9]+)?/(.*)" flags="ig"
                       source="{urlText}" property="text" listener="{urlText}"/>
   <mx:Form width="100%" height="100%">
     <mx:FormHeading label="Préférences"/>
