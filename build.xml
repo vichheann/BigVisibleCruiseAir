@@ -36,7 +36,7 @@
   <target name="air" depends="compile-air" description="air">
     <mkdir dir="${dist.dir}" />
     <copy todir="${out.dir}" overwrite="true">
-      <fileset dir="${src.dir}">
+      <fileset dir="${src.dir}/common">
         <include name="icons/**/*.*" />
       </fileset>
     </copy>
