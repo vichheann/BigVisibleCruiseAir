@@ -15,7 +15,7 @@ package com.piaction.dashboard.cruiseControl.model
 
     private var _refreshTimer:Timer;
 
-    public function Preferences(dashboardUrl:String, fullScreen:Boolean = false, refreshInterval:int = 30000):void
+    public function Preferences(dashboardUrl:String = "", fullScreen:Boolean = false, refreshInterval:int = 30000):void
     {
       this.dashboardUrl = dashboardUrl;
       this.fullScreen = fullScreen;

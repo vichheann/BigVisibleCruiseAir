@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Projects>
+<Project name="connectfour" activity="Building" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/connectfour" />
+<Project name="connectfive" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/connectfive" />
+<Project name="connectsix" activity="Sleeping" lastBuildStatus="Failure" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+<Project name="connectseven" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+<Project name="connecteight" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+<Project name="connectnine" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+<Project name="connectten" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+<Project name="connecteleven" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+<Project name="connecttwelve" activity="CheckingModifications" lastBuildStatus="Success" lastBuildLabel="build.1" lastBuildTime="2008-06-15T03:20:38" webUrl="http://localhost:9090/dashboard/tab/build/detail/six" />
+</Projects>

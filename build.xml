@@ -4,6 +4,7 @@
   </description>
   <property file="${user.home}/.ant-global.properties" prefix="GLOBAL"/>
   <property name="src.dir" value="${basedir}/src" />
+  <property name="test.dir" value="${basedir}/test" />
   <property name="lib.dir" value="${basedir}/libs" />
   <property name="out.dir" value="${basedir}/bin-release" />
   <property name="dbg.dir" value="${basedir}/bin-debug" />
@@ -58,6 +59,8 @@
   <target name="run" depends="compile-air" description="run">
     <exec taskName="adl" executable="${ADL}" dir="${out.dir}">
       <arg value="${APP_DESCRIPTOR}" />
+      <arg value="--" />
+      <arg value="file://localhost/${test.dir}/cctray.xml" />
     </exec>
   </target>
 
