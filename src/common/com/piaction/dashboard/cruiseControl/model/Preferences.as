@@ -47,7 +47,8 @@ package com.piaction.dashboard.cruiseControl.model
 
     public function dispatchRefresh(event:TimerEvent=null):void
     {
-      dispatcher.dispatchEvent(new MessageEvent(MessageEvent.REFRESH, true));
+      if (dashboardUrl != null && dashboardUrl.length > 0)
+        dispatcher.dispatchEvent(new MessageEvent(MessageEvent.REFRESH, true));
     }
   }
 }

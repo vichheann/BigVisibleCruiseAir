@@ -23,11 +23,6 @@
     </mate:ObjectBuilder>
   </mate:EventHandlers>
 
-  <mate:EventHandlers type="{flash.events.InvokeEvent.INVOKE}" debug="true">
-    <mate:DataCopier destination="{Preferences}" destinationKey="dashboardUrl" source="{event}" sourceKey="arguments" />
-    <mate:EventAnnouncer type="{MessageEvent.LOAD_DATA}" generator="{MessageEvent}" />
-  </mate:EventHandlers>
-
   <mate:EventHandlers type="{MessageEvent.FULLSCREEN}" debug="true">
     <mate:MethodInvoker generator="{ViewController}" method="switchFullScreen"/>
   </mate:EventHandlers>

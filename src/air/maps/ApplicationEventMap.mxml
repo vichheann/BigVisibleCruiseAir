@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mate:EventMap xmlns:mate="http://mate.asfusion.com/" xmlns:mx="http://www.adobe.com/2006/mxml">
+  <mx:Script>
+    <![CDATA[
+      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+      import com.piaction.dashboard.cruiseControl.model.Preferences;
+    ]]>
+  </mx:Script>
+  <mate:Debugger level="{Debugger.ALL}"/>
+  <mate:EventHandlers type="{flash.events.InvokeEvent.INVOKE}" debug="true">
+    <mate:DataCopier destination="{Preferences}" destinationKey="dashboardUrl" source="{event}" sourceKey="arguments" />
+    <mate:EventAnnouncer type="{MessageEvent.LOAD_DATA}" generator="{MessageEvent}" />
+  </mate:EventHandlers>
+</mate:EventMap>

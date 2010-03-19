@@ -69,7 +69,8 @@ package com.piaction.dashboard.cruiseControl.view
 
     private function reportKeyDown(event:KeyboardEvent):void
     {
-      if (event.commandKey || event.controlKey)
+      var controlKeyPressed:Boolean = event.hasOwnProperty("commandKey") ? (event.commandKey || event.controlKey) : event.ctrlKey;
+      if (controlKeyPressed)
       {
         if (event.keyCode == Keyboard.R)
         {
