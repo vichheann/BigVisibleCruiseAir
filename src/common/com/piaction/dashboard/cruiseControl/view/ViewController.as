@@ -56,7 +56,21 @@ package com.piaction.dashboard.cruiseControl.view
 
     public function showError(fault:Fault):void
     {
-      Alert.show(fault.message, "Problem");
+      var message:String;
+      showConfigurationScreen();
+      switch (fault.faultCode)
+      {
+        case "Client.URLRequired":
+          message = "You must provide an URL";
+          break;
+        case "Server.Error.Request":
+          message = "You set a bad URL";
+          break;
+        default:
+          message = fault.message;
+          break;
+      }
+      Alert.show(message, "Problem");
     }
 
     private function createPopUp():void

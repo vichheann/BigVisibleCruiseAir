@@ -22,6 +22,8 @@
   <property name="KEYSTORE" value="${GLOBAL.air.keystore}" />
   <property name="KEYSTORE_PASSWORD" value="${GLOBAL.air.keystore.password}" />
 
+  <property name="dashboard.url" value="file://localhost/${test.dir}/cctray.xml" />
+
   <taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
   <target name="init">
@@ -60,11 +62,12 @@
     <exec taskName="adl" executable="${ADL}" dir="${out.dir}">
       <arg value="${APP_DESCRIPTOR}" />
       <arg value="--" />
-      <arg value="file://localhost/${test.dir}/cctray.xml" />
+      <arg value="${dashboard.url}" />
     </exec>
   </target>
 
   <target name="compile-flex" depends="init" description="compile">
+    <fail message="Sorry, does not work yet"/>
     <mkdir dir="${deploy.dir}" />
     <compile-swf configName="flex" source="${src.dir}/flex" output="${deploy.dir}"/>
     <html-wrapper title="${ant.project.name}"
