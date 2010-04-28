@@ -2,8 +2,6 @@ package com.piaction.dashboard.cruiseControl.view
 {
   import com.adobe.utils.ArrayUtil;
   import com.piaction.dashboard.cruiseControl.model.Project;
-  import com.piaction.dashboard.cruiseControl.model.ProjectActivityEnum;
-  import com.piaction.dashboard.cruiseControl.model.ProjectStatusEnum;
 
   import flash.events.Event;
   import flash.media.Sound;
@@ -31,7 +29,7 @@ package com.piaction.dashboard.cruiseControl.view
     {
       super();
       _sort = new Sort();
-      _sort.fields = [new SortField("lastBuildStatus"), new SortField("activity")];
+      _sort.fields = [new SortField("lastBuildStatus"), new SortField("activity"), new SortField("name")];
       _sort.compareFunction = compareProjects;
     }
 
@@ -148,6 +146,10 @@ package com.piaction.dashboard.cruiseControl.view
       if (proj1.isCheckingModifications())
         return -1;
       if (proj2.isCheckingModifications())
+        return 1;
+      if (proj1.name < proj2.name)
+        return -1;
+      if (proj1.name > proj2.name)
         return 1;
       return 0;
     }
