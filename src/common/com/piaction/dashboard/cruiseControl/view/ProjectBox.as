@@ -17,7 +17,9 @@ package com.piaction.dashboard.cruiseControl.view
   {
     private var _sort:Sort;
     private var _failedProjects:Array = new Array();
-    private var _muteSound:Boolean;
+
+    [Bindable]
+    public var mute:Boolean;
 
     [Embed(source="/assets/klaxon.mp3")]
     public var klaxonClass:Class;
@@ -81,7 +83,7 @@ package com.piaction.dashboard.cruiseControl.view
             sounds.push(sound);
           }
         }
-        if (!_muteSound)
+        if (!mute)
         {
           for (var i:int = 0; i < sounds.length; i++)
           {
@@ -100,12 +102,6 @@ package com.piaction.dashboard.cruiseControl.view
     override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
     {
       super.updateDisplayList(unscaledWidth, unscaledHeight);
-    }
-
-    public function muteSound(button:Button):void
-    {
-      _muteSound = !_muteSound;
-      _muteSound ? button.label = "Alarme":button.label = "Sans Alarme";
     }
 
     private function updateSound(project:Project):Sound

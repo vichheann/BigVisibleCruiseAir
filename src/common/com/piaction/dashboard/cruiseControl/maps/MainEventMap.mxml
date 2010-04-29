@@ -21,6 +21,7 @@
     <mate:ObjectBuilder generator="{ViewController}" registerTarget="true">
       <mate:Properties rootStage="{Application.application}" main="{MainComponent}" preferences="{Preferences}" />
     </mate:ObjectBuilder>
+    <mate:EventAnnouncer generator="{MessageEvent}" type="{MessageEvent.FULLSCREEN}"/>
   </mate:EventHandlers>
 
   <mate:EventHandlers type="{MessageEvent.FULLSCREEN}" debug="true">
