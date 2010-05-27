@@ -19,7 +19,7 @@
   <mate:EventHandlers type="{FlexEvent.APPLICATION_COMPLETE}" debug="true">
     <mate:ObjectBuilder generator="{Preferences}" registerTarget="true"/>
     <mate:ObjectBuilder generator="{ViewController}" registerTarget="true">
-      <mate:Properties rootStage="{Application.application}" main="{MainComponent}" preferences="{Preferences}" />
+      <mate:Properties rootStage="{Application.application}" preferences="{Preferences}" />
     </mate:ObjectBuilder>
     <mate:EventAnnouncer generator="{MessageEvent}" type="{MessageEvent.FULLSCREEN}"/>
   </mate:EventHandlers>

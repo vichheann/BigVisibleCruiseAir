@@ -6,7 +6,6 @@ package com.piaction.dashboard.cruiseControl.view
   import flash.events.KeyboardEvent;
   import flash.ui.Keyboard;
 
-  import mx.controls.Alert;
   import mx.core.Application;
   import mx.managers.PopUpManager;
   import mx.rpc.Fault;
@@ -14,14 +13,13 @@ package com.piaction.dashboard.cruiseControl.view
   public class ViewController
   {
     public var preferences:Preferences;
-    public var main:MainComponent;
+    private var main:MainComponent;
     private var _configurationPopup:ConfigurationWindow;
 
-    public function ViewController(rootStage:BigVisibleCruise=null, main:MainComponent=null, preferences:Preferences=null)
+    public function ViewController(rootStage:BigVisibleCruise=null, preferences:Preferences=null)
     {
       super();
       this.rootStage = rootStage;
-      this.main = main;
       this.preferences = preferences;
     }
 
@@ -32,6 +30,7 @@ package com.piaction.dashboard.cruiseControl.view
       if (_rootStage != null)
       {
         _rootStage.stage.addEventListener(KeyboardEvent.KEY_DOWN, reportKeyDown);
+        this.main = (_rootStage as BigVisibleCruise).main;
       }
     }
 
@@ -46,18 +45,18 @@ package com.piaction.dashboard.cruiseControl.view
       rootStage.stage.displayState = preferences.fullScreen ? StageDisplayState.FULL_SCREEN_INTERACTIVE:StageDisplayState.NORMAL;
     }
 
-    public function showConfigurationScreen():void
+    public function showConfigurationScreen(message:String = null):void
     {
       createPopUp();
-      _configurationPopup.visible = true;
       _configurationPopup.preferences = preferences;
+      _configurationPopup.message = message;
+      _configurationPopup.visible = true;
       PopUpManager.centerPopUp(_configurationPopup);
     }
 
     public function showError(fault:Fault):void
     {
       var message:String;
-      showConfigurationScreen();
       switch (fault.faultCode)
       {
         case "Client.URLRequired":
@@ -70,14 +69,14 @@ package com.piaction.dashboard.cruiseControl.view
           message = fault.message;
           break;
       }
-      Alert.show(message, "Problem");
+      showConfigurationScreen(message);
     }
 
     private function createPopUp():void
     {
       if (_configurationPopup == null)
       {
-        _configurationPopup = PopUpManager.createPopUp(rootStage, ConfigurationWindow, true) as ConfigurationWindow;
+        _configurationPopup = PopUpManager.createPopUp(main, ConfigurationWindow, true) as ConfigurationWindow;
       }
     }
 
