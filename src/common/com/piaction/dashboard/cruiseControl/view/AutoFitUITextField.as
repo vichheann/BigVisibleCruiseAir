@@ -11,7 +11,7 @@ package com.piaction.dashboard.cruiseControl.view
     private var _format:UITextFormat;
 
     public static var MIN_POINT_SIZE:uint = 6;
-    public static var MAX_POINT_SIZE:uint = 256;
+    public static var MAX_POINT_SIZE:uint = 127;
 
     public function AutoFitUITextField(tf:UITextFormat=null)
     {
@@ -53,51 +53,30 @@ package com.piaction.dashboard.cruiseControl.view
       return format;
     }
 
-    public function fitText(maxLines:uint = 1, toUpper:Boolean = false, targetWidth:Number = -1):uint
+    public function fitText(targetWidth:Number, targetHeight:Number):uint
     {
-      /*if (text.length == 0)
-      {
-        changeSize(MIN_POINT_SIZE);
-        return MIN_POINT_SIZE;
-      }*/
+      width = targetWidth;
+      height = targetHeight;
+      changeSize(MIN_POINT_SIZE);
 
       if (text.length == 0)
       {
-        changeSize(MIN_POINT_SIZE);
         return MIN_POINT_SIZE;
       }
 
-      var msg:String = new String(text);
-      msg = toUpper ? msg.toUpperCase() : msg;
+      var pointSize:Number = MIN_POINT_SIZE;
 
-      if (targetWidth == -1)
+      if (textHeight > targetHeight)
       {
-        targetWidth = width;
-      }
-
-      var pixelsPerChar:Number = targetWidth / msg.length;
-
-      var pointSize:Number = Math.min(MAX_POINT_SIZE, Math.round(pixelsPerChar * 1.8 * maxLines));
-
-      if (pointSize < 6)
-      {
-        // the point size is too small
-        return pointSize;
-      }
-
-      changeSize(pointSize);
-
-      if (this.numLines > maxLines)
-      {
-        return shrinkText(--pointSize, maxLines);
+        return shrinkText(--pointSize, targetHeight - 6);
       }
       else
       {
-        return growText(pointSize, maxLines);
+        return growText(pointSize, targetHeight - 6);
       }
     }
 
-    private function growText(pointSize:Number, maxLines:uint = 1):Number
+    private function growText(pointSize:Number, targetHeight:Number):Number
     {
       if (pointSize >= MAX_POINT_SIZE)
       {
@@ -106,7 +85,7 @@ package com.piaction.dashboard.cruiseControl.view
 
       changeSize(pointSize + 1);
 
-      if (numLines > maxLines)
+      if (textHeight > targetHeight || numLines > 1)
       {
         // set it back to the last size
         changeSize(pointSize);
@@ -114,11 +93,11 @@ package com.piaction.dashboard.cruiseControl.view
       }
       else
       {
-        return growText(pointSize + 1, maxLines);
+        return growText(pointSize + 1, targetHeight);
       }
     }
 
-    private function shrinkText(pointSize:Number, maxLines:uint=1):Number
+    private function shrinkText(pointSize:Number, targetHeight:Number):Number
     {
       if (pointSize <= MIN_POINT_SIZE)
       {
@@ -127,9 +106,9 @@ package com.piaction.dashboard.cruiseControl.view
 
       changeSize(pointSize);
 
-      if (numLines > maxLines)
+      if (textHeight > targetHeight)
       {
-        return shrinkText(pointSize - 1, maxLines);
+        return shrinkText(pointSize - 1, targetHeight);
       }
       else
       {

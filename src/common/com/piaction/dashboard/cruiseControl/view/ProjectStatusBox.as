@@ -47,6 +47,7 @@ package com.piaction.dashboard.cruiseControl.view
       if (_textField == null)
       {
         _textField = new AutoFitUITextField();
+        _textField.percentHeight = 100;
         addChild(_textField);
       }
     }
@@ -66,7 +67,6 @@ package com.piaction.dashboard.cruiseControl.view
           _blinkTimer.stop();
         }
         _projectChanged = false;
-        invalidateDisplayList();
       }
     }
 
@@ -80,10 +80,7 @@ package com.piaction.dashboard.cruiseControl.view
       super.updateDisplayList(unscaledWidth, unscaledHeight);
       if (_textField.text.length > 0)
       {
-        _textField.width = width;
-        _textField.fitText(1, true, getExplicitOrMeasuredWidth());
-        _textField.move(0, (height - _textField.height) / 2);
-        height = _textField.getExplicitOrMeasuredHeight();
+        _textField.fitText(unscaledWidth, unscaledHeight);
       }
       drawBackground(getBackgroundColor(_project));
     }

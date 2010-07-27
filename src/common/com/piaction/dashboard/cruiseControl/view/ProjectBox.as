@@ -11,7 +11,6 @@ package com.piaction.dashboard.cruiseControl.view
   import mx.collections.Sort;
   import mx.collections.SortField;
   import mx.containers.VBox;
-  import mx.controls.Button;
 
   public class ProjectBox extends VBox
   {
