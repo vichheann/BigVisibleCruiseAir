@@ -52,4 +52,8 @@
     <mate:PropertyInjector targetKey="projects" source="{CruiseControlRepository}" sourceKey="projects" />
   </mate:Injectors>
 
+  <mate:Injectors target="{MainComponent}" debug="true">
+    <mate:PropertyInjector targetKey="preferences" source="{Preferences}"/>
+  </mate:Injectors>
+
 </mate:EventMap>

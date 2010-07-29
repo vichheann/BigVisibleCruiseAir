@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="500" height="250" title="Configuration">
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="550" height="270" title="Configuration">
   <mx:Script>
     <![CDATA[
       import mx.events.ValidationResultEvent;
       import mx.managers.PopUpManager;
+      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+      import com.piaction.dashboard.cruiseControl.model.ColorEnum;
       import com.piaction.dashboard.cruiseControl.model.Preferences;
 
       [Bindable]
-      public var preferences:Preferences;
+      public var _preferences:Preferences;
+      [Bindable("preferencesChanged")]
+      public function get preferences():Preferences
+      {
+        return _preferences;
+      }
+      public function set preferences(value:Preferences):void
+      {
+        _preferences = value;
+        _userColor = _preferences.cloneUserColor();
+        dispatchEvent(new Event("preferencesChanged"));
+      }
+
       [Bindable]
       private var _message:String;
+
+      [Bindable]
+      private var _userColor:Object;
 
       public function set message(value:String):void
       {
@@ -30,6 +47,8 @@
         {
           preferences.dashboardUrl = urlText.text;
           preferences.refreshInterval = refreshIntervalSlider.value;
+          preferences.setUserColor(_userColor);
+          dispatchEvent(new MessageEvent(MessageEvent.REFRESH));
           close();
         }
       }
@@ -47,20 +66,37 @@
   </mx:states>
   <mx:RegExpValidator id="urlValidator" expression="[http|file]://([a-z0-9_\-.]+)+(:[0-9]+)?/(.*)" flags="ig"
                       source="{urlText}" property="text" listener="{urlText}"/>
-  <mx:Form id="form" width="100%" height="100%">
-    <mx:FormHeading label="Préférences"/>
-    <mx:FormItem label="Cruise control URL" width="100%">
+  <mx:Form id="form" width="100%">
+    <mx:FormHeading label="Preferences"/>
+    <mx:FormItem label="Cruise control URL:" width="100%">
       <mx:TextInput id="urlText" width="100%" text="{preferences.dashboardUrl}"/>
     </mx:FormItem>
-    <mx:FormItem label="Refresh (sec)" width="100%">
+    <mx:FormItem label="Refresh (min):" width="100%">
       <mx:HSlider id="refreshIntervalSlider" width="100%"
                   allowTrackClick="true" minimum="30" maximum="300" liveDragging="true" snapInterval="30" tickInterval="30"
                   value="{preferences.refreshInterval}"
-                  labels="['30', '60', '90', '120', '150', '180', '210', '240', '270', '300']"/>
+                  labels="['0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '4.5', '5']"/>
     </mx:FormItem>
   </mx:Form>
+  <mx:Canvas width="100%" height="100%">
+    <mx:HBox width="100%" verticalAlign="middle" horizontalAlign="right" top="0" right="0">
+      <mx:Text text="Checking:"/><mx:ColorPicker id="checkingColor" selectedColor="{_userColor.checking.code}"
+                                                change="{_userColor.checking = new ColorEnum(checkingColor.value as Number)}"/>
+      <mx:Text text="Building:"/><mx:ColorPicker id="buildingColor" selectedColor="{_userColor.building.code}"
+                                                change="{_userColor.building = new ColorEnum(buildingColor.selectedColor as Number)}"/>
+      <mx:Text text="Success:"/><mx:ColorPicker id="successColor" selectedColor="{_userColor.success.code}"
+                                               change="{_userColor.success = new ColorEnum(successColor.selectedColor as Number)}"/>
+      <mx:Text text="Failure dark:"/><mx:ColorPicker id="failureColorDark" selectedColor="{_userColor.failureDark.code}"
+                                               change="{_userColor.failureDark = new ColorEnum(failureColorDark.selectedColor as Number)}"/>
+      <mx:Text text="Failure light:"/><mx:ColorPicker id="failureColorLight" selectedColor="{_userColor.failureLight.code}"
+                                               change="{_userColor.failureLight = new ColorEnum(failureColorLight.selectedColor as Number)}"/>
+    </mx:HBox>
+    <mx:Text text="Reset to default Colors" mouseChildren="false" useHandCursor="true" buttonMode="true" textDecoration="underline"
+                                            click="_userColor = preferences.resetToDefaultColors()"
+                                            bottom="0" right="0"/>
+  </mx:Canvas>
   <mx:ControlBar width="100%" horizontalAlign="right">
-    <mx:LinkButton id="cancel" label="Annuler" click="close()"/>
+    <mx:Text id="cancel" text="Annuler" mouseChildren="false" useHandCursor="true" buttonMode="true" textDecoration="underline" click="close()"/>
     <mx:Button id="submit" label="Enregistrer" click="update();"/>
   </mx:ControlBar>
 </mx:TitleWindow>

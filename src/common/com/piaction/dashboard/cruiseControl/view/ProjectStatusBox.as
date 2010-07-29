@@ -1,9 +1,8 @@
 package com.piaction.dashboard.cruiseControl.view
 {
   import com.piaction.dashboard.cruiseControl.model.ColorEnum;
+  import com.piaction.dashboard.cruiseControl.model.Preferences;
   import com.piaction.dashboard.cruiseControl.model.Project;
-  import com.piaction.dashboard.cruiseControl.model.ProjectActivityEnum;
-  import com.piaction.dashboard.cruiseControl.model.ProjectStatusEnum;
 
   import flash.display.Graphics;
   import flash.events.Event;
@@ -19,6 +18,7 @@ package com.piaction.dashboard.cruiseControl.view
     private var _backgroundColor:ColorEnum;
 
     private var _projectChanged:Boolean = false;
+    private var _preferencesChanged:Boolean = false;
 
     public function ProjectStatusBox()
     {
@@ -26,6 +26,9 @@ package com.piaction.dashboard.cruiseControl.view
       _blinkTimer = new Timer(800);
       _blinkTimer.addEventListener(TimerEvent.TIMER, toggleColor, false, 0, true);
     }
+
+    [Bindable]
+    public var preferences:Preferences;
 
     private var _project:Project;
     [Bindable("projectChanged")]
@@ -54,11 +57,10 @@ package com.piaction.dashboard.cruiseControl.view
 
     override protected function commitProperties():void
     {
-      if (_projectChanged)
+      if (_projectChanged && preferences)
       {
         _textField.text = project.name;
-        var color:ColorEnum = getBackgroundColor(project);
-        if (color.equals(ColorEnum.RED))
+        if (_project.hasFailed())
         {
           _blinkTimer.start();
         }
@@ -82,32 +84,8 @@ package com.piaction.dashboard.cruiseControl.view
       {
         _textField.fitText(unscaledWidth, unscaledHeight);
       }
-      drawBackground(getBackgroundColor(_project));
-    }
-
-    private function getBackgroundColor(project:Project):ColorEnum
-    {
-      if (project.isSuccessful())
-      {
-        return ColorEnum.GREEN;
-      }
-      if (project.hasFailed())
-      {
-        return ColorEnum.RED;
-      }
-      if (project.isBuilding())
-      {
-        return ColorEnum.YELLOW;
-      }
-      if (project.isCheckingModifications())
-      {
-        return ColorEnum.ORANGE;
-      }
-      if (project.isSleeping() && project.lastStatusIsUnknown())
-      {
-        return ColorEnum.WHITE;
-      }
-      return ColorEnum.BLACK;
+      if (preferences)
+        drawBackground(preferences.getBackgroundColor(_project));
     }
 
     private function drawBackground(color:ColorEnum):void
@@ -124,7 +102,7 @@ package com.piaction.dashboard.cruiseControl.view
     private function toggleColor(event:TimerEvent):void
     {
       var newColor:ColorEnum = ColorEnum.WHITE;
-      _backgroundColor.equals(ColorEnum.RED) ? newColor = ColorEnum.RED_LIGHT : newColor = ColorEnum.RED;
+      _backgroundColor.equals(preferences.userColor.failureDark) ? newColor = preferences.userColor.failureLight : newColor = preferences.userColor.failureDark;
       drawBackground(newColor);
     }
   }

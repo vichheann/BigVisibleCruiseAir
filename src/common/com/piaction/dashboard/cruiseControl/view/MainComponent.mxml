@@ -8,9 +8,13 @@
     <![CDATA[
       import mx.collections.ArrayCollection;
       import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+      import com.piaction.dashboard.cruiseControl.model.Preferences;
 
       [Bindable]
       public var projects:ArrayCollection;
+
+      [Bindable]
+      public var preferences:Preferences;
 
       [Bindable]
       public var mute:Boolean = true;
@@ -28,7 +32,7 @@
   </mx:Script>
   <maps:MainEventMap />
   <mate:Listener type="{MessageEvent.REFRESH}" receive="loadData()"/>
-  <view:ProjectBox id="projectContainer" projects="{projects}" mute="{mute}" width="100%" height="100%"/>
+  <view:ProjectBox id="projectContainer" projects="{projects}" mute="{mute}" preferences="{preferences}" width="100%" height="100%"/>
   <mx:HBox id="controls" width="100%" horizontalAlign="right" paddingTop="1" paddingBottom="1">
     <mx:LinkButton id="muteSound" label="{mute ? 'Alarme':'Sans Alarme'}" click="checkSound()" toolTip="Shift+S"/>
     <mx:LinkButton id="refreshLink" label="Rafraichir" click="loadData()" toolTip="Ctrl+R"/>

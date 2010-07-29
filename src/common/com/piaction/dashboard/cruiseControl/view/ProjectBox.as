@@ -1,6 +1,7 @@
 package com.piaction.dashboard.cruiseControl.view
 {
   import com.adobe.utils.ArrayUtil;
+  import com.piaction.dashboard.cruiseControl.model.Preferences;
   import com.piaction.dashboard.cruiseControl.model.Project;
 
   import flash.events.Event;
@@ -16,6 +17,9 @@ package com.piaction.dashboard.cruiseControl.view
   {
     private var _sort:Sort;
     private var _failedProjects:Array = new Array();
+
+    [Bindable]
+    public var preferences:Preferences;
 
     [Bindable]
     public var mute:Boolean;
@@ -73,6 +77,7 @@ package com.piaction.dashboard.cruiseControl.view
           var project:Project = Project(cursor.current);
           var projectStatusBox:ProjectStatusBox = new ProjectStatusBox();
           projectStatusBox.percentWidth = projectStatusBox.percentHeight = 100;
+          projectStatusBox.preferences = preferences;
           projectStatusBox.project = project;
           addChild(projectStatusBox);
           cursor.moveNext();

@@ -19,8 +19,8 @@ package com.piaction.dashboard.cruiseControl.view
     public function ViewController(rootStage:BigVisibleCruise=null, preferences:Preferences=null)
     {
       super();
-      this.rootStage = rootStage;
       this.preferences = preferences;
+      this.rootStage = rootStage;
     }
 
     private var _rootStage:Application;

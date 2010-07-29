@@ -14,6 +14,9 @@ package com.piaction.dashboard.cruiseControl.model
     public var dispatcher:Dispatcher = new Dispatcher();
 
     private var _refreshTimer:Timer;
+    public var defaultColor:Object = {'success': ColorEnum.GREEN, 'failureDark': ColorEnum.RED, 'failureLight': ColorEnum.RED_LIGHT, 'building': ColorEnum.YELLOW, 'checking': ColorEnum.ORANGE, 'unknown': ColorEnum.WHITE};
+
+    public var userColor:Object = cloneObject(defaultColor);
 
     public function Preferences(dashboardUrl:String = "", fullScreen:Boolean = false, refreshInterval:int = 30000):void
     {
@@ -49,6 +52,56 @@ package com.piaction.dashboard.cruiseControl.model
     {
       if (dashboardUrl != null && dashboardUrl.length > 0)
         dispatcher.dispatchEvent(new MessageEvent(MessageEvent.REFRESH, true));
+    }
+
+    public function resetToDefaultColors():Object
+    {
+      return cloneObject(defaultColor);
+    }
+
+    public function cloneUserColor():Object
+    {
+      return cloneObject(userColor);
+    }
+
+    public function setUserColor(colors:Object):void
+    {
+      userColor = cloneObject(colors);
+    }
+
+    private function cloneObject(color:Object):Object
+    {
+      var result:Object= new Object();
+      for (var i:String in color)
+      {
+        result[i] = color[i];
+      }
+      return result;
+    }
+
+    public function getBackgroundColor(project:Project):ColorEnum
+    {
+      if (project.isSuccessful())
+      {
+        return userColor['success'];
+      }
+      if (project.hasFailed())
+      {
+        return userColor['failureDark'];
+      }
+      if (project.isBuilding())
+      {
+        return userColor['building'];
+      }
+      if (project.isCheckingModifications())
+      {
+        return userColor['checking'];
+      }
+      if (project.isSleeping() && project.lastStatusIsUnknown())
+      {
+        return userColor['unknown'];
+      }
+      return ColorEnum.BLACK;
     }
   }
 }
