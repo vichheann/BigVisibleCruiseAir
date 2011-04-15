@@ -1,5 +1,7 @@
 /* CSS file */
-Application {
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+mx|Application {
   background-color: black;
   padding-top: 1;
   padding-bottom: 1;

@@ -1,5 +1,7 @@
 /* CSS file */
-WindowedApplication {
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+mx|WindowedApplication {
   background-color: black;
   padding-top: 1;
   padding-bottom: 1;
