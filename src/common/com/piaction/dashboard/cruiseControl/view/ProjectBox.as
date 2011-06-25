@@ -24,11 +24,11 @@ package com.piaction.dashboard.cruiseControl.view
     [Bindable]
     public var mute:Boolean;
 
-    [Embed(source="/assets/klaxon.mp3")]
-    public var klaxonClass:Class;
+    [Embed(source="/assets/buildFailed.mp3")]
+    public var buildFailedClass:Class;
 
-    [Embed(source="/assets/applause.mp3")]
-    public var applauseClass:Class;
+    [Embed(source="/assets/buildSuccessful.mp3")]
+    public var buildSuccessfulClass:Class;
 
     public function ProjectBox()
     {
@@ -117,13 +117,13 @@ package com.piaction.dashboard.cruiseControl.view
         {
           _failedProjects.push(project.name);
         }
-        sound = new klaxonClass() as Sound;
+        sound = new buildFailedClass() as Sound;
       }
       else
       {
         if (ArrayUtil.arrayContainsValue(_failedProjects, project.name) && project.isSuccessful())
         {
-          sound = new applauseClass() as Sound;
+          sound = new buildSuccessfulClass() as Sound;
           ArrayUtil.removeValueFromArray(_failedProjects, project.name);
         }
       }

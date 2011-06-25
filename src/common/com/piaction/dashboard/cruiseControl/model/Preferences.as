@@ -2,7 +2,8 @@ package com.piaction.dashboard.cruiseControl.model
 {
   import com.asfusion.mate.events.Dispatcher;
   import com.piaction.dashboard.cruiseControl.events.MessageEvent;
-
+  
+  import flash.events.Event;
   import flash.events.TimerEvent;
   import flash.utils.Timer;
 
@@ -45,7 +46,7 @@ package com.piaction.dashboard.cruiseControl.model
       {
         _refreshTimer.start();
       }
-      dispatchEvent(new Event("refreshIntervalChanged"));
+      dispatcher.dispatchEvent(new Event("refreshIntervalChanged"));
     }
 
     public function dispatchRefresh(event:TimerEvent=null):void
