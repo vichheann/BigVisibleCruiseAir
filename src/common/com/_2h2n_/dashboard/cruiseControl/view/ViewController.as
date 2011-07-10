@@ -1,6 +1,6 @@
-package com.piaction.dashboard.cruiseControl.view
+package com._2h2n_.dashboard.cruiseControl.view
 {
-  import com.piaction.dashboard.cruiseControl.model.Preferences;
+  import com._2h2n_.dashboard.cruiseControl.model.Preferences;
 
   import flash.display.StageDisplayState;
   import flash.events.KeyboardEvent;

@@ -1,4 +1,4 @@
-package com.piaction.dashboard.cruiseControl.model
+package com._2h2n_.dashboard.cruiseControl.model
 {
   import com.adobe.utils.DateUtil;
 

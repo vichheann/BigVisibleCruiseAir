@@ -1,7 +1,7 @@
-package com.piaction.dashboard.cruiseControl.model
+package com._2h2n_.dashboard.cruiseControl.model
 {
   import com.asfusion.mate.events.Dispatcher;
-  import com.piaction.dashboard.cruiseControl.events.MessageEvent;
+  import com._2h2n_.dashboard.cruiseControl.events.MessageEvent;
   
   import flash.events.Event;
   import flash.events.TimerEvent;

@@ -1,4 +1,4 @@
-package com.piaction.dashboard.cruiseControl.events
+package com._2h2n_.dashboard.cruiseControl.events
 {
   import flash.events.Event;
 

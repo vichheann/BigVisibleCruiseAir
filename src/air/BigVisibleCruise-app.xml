@@ -14,7 +14,7 @@
 -->
 
   <!-- The application identifier string, unique to this application. Required. -->
-  <id>com.piaction.dashboard.cruiseControl.BigVisibleCruise</id>
+  <id>com.2h2n.dashboard.cruiseControl.BigVisibleCruise</id>
 
   <!-- Used as the filename for the application. Required. -->
   <filename>BigVisibleCruise</filename>

@@ -2,8 +2,8 @@
 <mate:EventMap xmlns:mate="http://mate.asfusion.com/" xmlns:mx="http://www.adobe.com/2006/mxml">
   <mx:Script>
     <![CDATA[
-      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
-      import com.piaction.dashboard.cruiseControl.model.Preferences;
+      import com._2h2n_.dashboard.cruiseControl.events.MessageEvent;
+      import com._2h2n_.dashboard.cruiseControl.model.Preferences;
     ]]>
   </mx:Script>
   <mate:Debugger level="{Debugger.ALL}"/>

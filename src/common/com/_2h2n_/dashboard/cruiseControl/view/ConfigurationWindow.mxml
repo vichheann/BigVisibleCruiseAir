@@ -4,9 +4,9 @@
     <![CDATA[
       import mx.events.ValidationResultEvent;
       import mx.managers.PopUpManager;
-      import com.piaction.dashboard.cruiseControl.events.MessageEvent;
-      import com.piaction.dashboard.cruiseControl.model.ColorEnum;
-      import com.piaction.dashboard.cruiseControl.model.Preferences;
+      import com._2h2n_.dashboard.cruiseControl.events.MessageEvent;
+      import com._2h2n_.dashboard.cruiseControl.model.ColorEnum;
+      import com._2h2n_.dashboard.cruiseControl.model.Preferences;
 
       [Bindable]
       public var _preferences:Preferences;
