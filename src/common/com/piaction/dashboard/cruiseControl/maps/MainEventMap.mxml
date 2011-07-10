@@ -7,10 +7,13 @@
 		import com.piaction.dashboard.cruiseControl.repository.CruiseControlRepository;
 		import com.piaction.dashboard.cruiseControl.view.MainComponent;
 		import com.piaction.dashboard.cruiseControl.view.ViewController;
-		
+
 		import mx.core.Application;
 		import mx.core.FlexGlobals;
 		import mx.events.FlexEvent;
+
+		[Bindable]
+		private var application:Object = FlexGlobals.topLevelApplication;
 
     ]]>
   </mx:Script>
@@ -21,7 +24,7 @@
   <mate:EventHandlers type="{FlexEvent.APPLICATION_COMPLETE}" debug="true">
     <mate:ObjectBuilder generator="{Preferences}" registerTarget="true"/>
     <mate:ObjectBuilder generator="{ViewController}" registerTarget="true">
-      <mate:Properties rootStage="{Application(FlexGlobals.topLevelApplication)}" preferences="{Preferences}" />
+      <mate:Properties rootStage="{application}" preferences="{Preferences}" />
     </mate:ObjectBuilder>
     <mate:EventAnnouncer generator="{MessageEvent}" type="{MessageEvent.FULLSCREEN}"/>
   </mate:EventHandlers>
