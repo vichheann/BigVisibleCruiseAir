@@ -7,12 +7,11 @@
   <property name="test.dir" value="${basedir}/test" />
   <property name="lib.dir" value="${basedir}/libs" />
   <property name="out.dir" value="${basedir}/bin-release" />
-  <property name="dbg.dir" value="${basedir}/bin-debug" />
   <property name="dist.dir" value="${basedir}/bin-dist" />
   <property name="deploy.dir" value="${basedir}/bin-deploy" />
   <property name="OPTIMIZE" value="true" />
   <property name="DEBUG" value="false" />
-  <property name="FLEX_HOME" value="${GLOBAL.flex_sdk_3}" />
+  <property name="FLEX_HOME" value="${GLOBAL.flex_sdk_4}" />
   <property name="ADL" value="${FLEX_HOME}/bin/adl" />
   <property name="ADT.JAR" value="${FLEX_HOME}/lib/adt.jar" />
   <property name="APP_NAME" value="BigVisibleCruise" />
@@ -28,7 +27,6 @@
 
   <target name="init">
     <mkdir dir="${out.dir}" />
-    <mkdir dir="${dbg.dir}" />
   </target>
 
   <target name="compile-air" depends="init" description="compile">
@@ -116,7 +114,6 @@
 
   <target name="clean" description="clean up">
     <delete dir="${out.dir}" />
-    <delete dir="${dbg.dir}" />
     <delete dir="${dist.dir}" />
     <delete dir="${deploy.dir}" />
   </target>
