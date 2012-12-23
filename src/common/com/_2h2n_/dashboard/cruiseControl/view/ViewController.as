@@ -57,8 +57,11 @@ package com._2h2n_.dashboard.cruiseControl.view
 
     public function switchFullScreen():void
     {
-      preferences.fullScreen = !preferences.fullScreen;
-      rootStage.stage.displayState = preferences.fullScreen ? StageDisplayState.FULL_SCREEN_INTERACTIVE:StageDisplayState.NORMAL;
+      if (rootStage.stage.displayState == StageDisplayState.NORMAL)
+      {
+        preferences.fullScreen = !preferences.fullScreen;
+        rootStage.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
+      }
     }
 
     public function showConfigurationScreen(message:String = null):void
