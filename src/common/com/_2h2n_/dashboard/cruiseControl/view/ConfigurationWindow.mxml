@@ -80,7 +80,7 @@
       </mx:AddChild>
     </mx:State>
   </mx:states>
-  <mx:RegExpValidator id="urlValidator" expression="[http|file]://([a-z0-9_\-.]+)+(:[0-9]+)?/(.*)" flags="ig"
+  <mx:RegExpValidator id="urlValidator" expression="[http|https|file]://([a-z0-9_\-.]+)+(:[0-9]+)?/(.*)" flags="ig"
                       source="{urlText}" property="text" listener="{urlText}"/>
   <mx:Form id="form" width="100%">
     <mx:FormHeading label="Preferences"/>
