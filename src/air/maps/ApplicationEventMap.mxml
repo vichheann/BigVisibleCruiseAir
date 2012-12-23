@@ -19,7 +19,32 @@
   <mx:Script>
     <![CDATA[
       import com._2h2n_.dashboard.cruiseControl.events.MessageEvent;
+      import com._2h2n_.dashboard.cruiseControl.events.ResizeScreenEvent;
       import com._2h2n_.dashboard.cruiseControl.model.Preferences;
+
+      import mx.events.FlexEvent;
+      import mx.events.FlexNativeWindowBoundsEvent;
+
+      private var _applicationCompleted:Boolean;
+
+      public function setApplicationCompleted(value:Boolean):void
+      {
+        _applicationCompleted = value;
+      }
+
+      public function udpate(event:FlexNativeWindowBoundsEvent):void
+      {
+        //$$$ Can not catch ESC key pressed event, so check window size
+        //mx.controls.Alert.show(event.beforeBounds.toString() + "\n" + event.afterBounds.toString());
+        var resizeScreenEvent:ResizeScreenEvent = new ResizeScreenEvent();
+        resizeScreenEvent.fullScreen = true;
+        if (event.beforeBounds.width == event.afterBounds.width && event.beforeBounds.height == event.afterBounds.height)
+        {
+          resizeScreenEvent.fullScreen = false;
+        }
+        if (_applicationCompleted)
+          getDispatcher().dispatchEvent(resizeScreenEvent);
+      }
     ]]>
   </mx:Script>
   <mate:Debugger level="{Debugger.ALL}"/>
@@ -27,4 +52,14 @@
     <mate:DataCopier destination="{Preferences}" destinationKey="dashboardUrl" source="{event}" sourceKey="arguments" />
     <mate:EventAnnouncer type="{MessageEvent.LOAD_DATA}" generator="{MessageEvent}" />
   </mate:EventHandlers>
+  <mate:EventHandlers type="{mx.events.FlexEvent.APPLICATION_COMPLETE}" debug="false">
+    <mate:InlineInvoker method="{setApplicationCompleted}" arguments="{[true]}"/>
+  </mate:EventHandlers>
+  <mate:EventHandlers type="{mx.events.FlexNativeWindowBoundsEvent.WINDOW_RESIZE}" debug="true">
+    <mate:InlineInvoker method="{udpate}" arguments="{[event]}"/>
+  </mate:EventHandlers>
+  <mate:EventHandlers type="{com._2h2n_.dashboard.cruiseControl.events.ResizeScreenEvent.RESIZED}" debug="true">
+    <mate:DataCopier destination="{Preferences}" destinationKey="fullScreen" source="{event}" sourceKey="fullScreen"/>
+  </mate:EventHandlers>
 </mate:EventMap>
+

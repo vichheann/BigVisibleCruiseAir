@@ -57,7 +57,7 @@ package com._2h2n_.dashboard.cruiseControl.view
 
     public function switchFullScreen():void
     {
-      if (rootStage.stage.displayState == StageDisplayState.NORMAL)
+      if (!preferences.fullScreen)
       {
         preferences.fullScreen = !preferences.fullScreen;
         rootStage.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
@@ -66,6 +66,7 @@ package com._2h2n_.dashboard.cruiseControl.view
 
     public function showConfigurationScreen(message:String = null):void
     {
+      switchFullScreen();
       createPopUp();
       _configurationPopup.preferences = preferences;
       _configurationPopup.message = message;
@@ -89,6 +90,14 @@ package com._2h2n_.dashboard.cruiseControl.view
           break;
       }
       showConfigurationScreen(message);
+    }
+
+    public function closePopUp():void
+    {
+      if (_configurationPopup && _configurationPopup.visible)
+      {
+        _configurationPopup.close();
+      }
     }
 
     private function createPopUp():void

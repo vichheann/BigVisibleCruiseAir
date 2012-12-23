@@ -69,6 +69,10 @@
     <mate:MethodInvoker generator="{ViewController}" method="showConfigurationScreen"/>
   </mate:EventHandlers>
 
+  <mate:EventHandlers type="{com._2h2n_.dashboard.cruiseControl.events.ResizeScreenEvent.RESIZED}" debug="true">
+    <mate:MethodInvoker generator="{ViewController}" method="closePopUp"/>
+  </mate:EventHandlers>
+
   <mate:Injectors target="{MainComponent}" debug="true">
     <mate:PropertyInjector targetKey="projects" source="{CruiseControlRepository}" sourceKey="projects" />
   </mate:Injectors>

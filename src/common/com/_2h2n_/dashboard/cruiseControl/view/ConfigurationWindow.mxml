@@ -51,7 +51,7 @@
         else currentState ="";
       }
 
-      private function close():void
+      public function close():void
       {
         this.visible = false;
       }
