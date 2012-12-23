@@ -35,7 +35,7 @@ package com._2h2n_.dashboard.cruiseControl.model
 
     public var userColor:Object = cloneObject(defaultColor);
 
-    public function Preferences(dashboardUrl:String = "", fullScreen:Boolean = false, refreshInterval:int = 30000):void
+    public function Preferences(dashboardUrl:String = "", fullScreen:Boolean = false, refreshInterval:int = 60000):void
     {
       this.dashboardUrl = dashboardUrl;
       this.fullScreen = fullScreen;
