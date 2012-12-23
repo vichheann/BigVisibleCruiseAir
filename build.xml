@@ -11,7 +11,7 @@
   <property name="deploy.dir" value="${basedir}/bin-deploy" />
   <property name="OPTIMIZE" value="true" />
   <property name="DEBUG" value="false" />
-  <property name="FLEX_HOME" value="${GLOBAL.flex_sdk_4}" />
+  <property name="FLEX_HOME" value="${GLOBAL.flex_sdk_4.5}" />
   <property name="ADL" value="${FLEX_HOME}/bin/adl" />
   <property name="ADT.JAR" value="${FLEX_HOME}/lib/adt.jar" />
   <property name="APP_NAME" value="BigVisibleCruise" />
