@@ -78,6 +78,7 @@
           <mx:Label width="100%" text="{_message}" color="#FF0000"/>
         </mx:FormItem>
       </mx:AddChild>
+      <mx:SetProperty target="{this}" name="height" value="290"/>
     </mx:State>
   </mx:states>
   <mx:RegExpValidator id="urlValidator" expression="[http|https|file]://([a-z0-9_\-.]+)+(:[0-9]+)?/(.*)" flags="ig"
