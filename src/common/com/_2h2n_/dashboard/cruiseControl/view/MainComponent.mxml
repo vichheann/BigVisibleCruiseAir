@@ -22,9 +22,12 @@
         width="100%" height="100%">
   <mx:Script>
     <![CDATA[
-      import mx.collections.ArrayCollection;
       import com._2h2n_.dashboard.cruiseControl.events.MessageEvent;
       import com._2h2n_.dashboard.cruiseControl.model.Preferences;
+
+      import flash.utils.getTimer;
+
+      import mx.collections.ArrayCollection;
 
       [Bindable]
       public var projects:ArrayCollection;
@@ -35,9 +38,23 @@
       [Bindable]
       public var mute:Boolean = true;
 
+      private var countDownTimer:Timer = new Timer(1000);
+      private var startTimer:int = 0;
+
       private function loadData():void
       {
         dispatchEvent(new MessageEvent(MessageEvent.LOAD_DATA));
+        countDownTimer.reset();
+        startTimer = getTimer();
+        countDownTimer.start();
+        countDownTimer.addEventListener(TimerEvent.TIMER, timerHandler);
+      }
+
+      private function timerHandler(event:TimerEvent):void
+      {
+        var renderTime:int = ((preferences.refreshInterval * 1000) - (getTimer() - startTimer));
+        var d:Date = new Date(renderTime);
+        countDown.text = "Refresh in " + dateFormatter.format(d);
       }
 
       public function checkSound():void
@@ -48,8 +65,11 @@
   </mx:Script>
   <ns:MainEventMap />
   <mate:Listener type="{MessageEvent.REFRESH}" receive="loadData()"/>
+  <mx:DateFormatter id="dateFormatter" formatString="N:SS" />
   <ns1:ProjectBox id="projectContainer" projects="{projects}" mute="{mute}" preferences="{preferences}" width="100%" height="100%"/>
   <mx:HBox id="controls" width="100%" horizontalAlign="right" paddingTop="1" paddingBottom="1">
+    <mx:Label id="countDown" width="100%" styleName="whiteLabel"/>
+    <mx:Spacer width="100%"/>
     <mx:LinkButton id="muteSound" label="{mute ? 'Sound':'No Sound'}" click="checkSound()" toolTip="Shift+S"/>
     <mx:LinkButton id="refreshLink" label="Refresh" click="loadData()" toolTip="Ctrl+R"/>
     <mx:LinkButton id="fullScreenLink" label="Full Screen" click="dispatchEvent(new MessageEvent(MessageEvent.FULLSCREEN))" toolTip="Ctrl+F or Cmd+F"/>

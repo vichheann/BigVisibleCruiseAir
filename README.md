@@ -14,7 +14,8 @@ Now, you can launch the air file to install. You may need administrator rights.
 Once installed, you must specify the URL of the xml (same as `cctray`). For instance, `http://hudson.jboss.org/hudson/view/JBoss%20Portal/cc.xml`
 
 ## Build
-You need
+Although it runs on Linux, building may not work. Well I don't know :)
+Anyway, You will need
 
 1. ant 1.7+
 2. [Flex SDK 4.5.1](http://sourceforge.net/adobe/flexsdk/wiki/Download%20Flex%204.5/)

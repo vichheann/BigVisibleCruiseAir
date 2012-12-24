@@ -56,11 +56,29 @@
     </java>
   </target>
 
-  <target name="run" depends="compile-air" description="run">
+  <target name="isWindows">
+    <condition property="isWindows">
+      <os family="windows"/>
+    </condition>
+  </target>
+
+  <target name="windows-params" if="isWindows">
+    <property name="params" value='"${dashboard.url}"'/>
+    <property name="air.runtime.os" value="win"/>
+  </target>
+
+  <target name="unix-params" unless="isWindows">
+    <property name="params" value="${dashboard.url}"/>
+    <property name="air.runtime.os" value="mac"/>
+  </target>
+
+  <target name="run" depends="isWindows, unix-params, windows-params, compile-air" description="run">
     <exec taskName="adl" executable="${ADL}" dir="${out.dir}">
+      <arg value="-runtime" />
+      <arg value="${FLEX_HOME}/runtimes/air/${air.runtime.os}" />
       <arg value="${APP_DESCRIPTOR}" />
       <arg value="--" />
-      <arg value="${dashboard.url}" />
+      <arg value="${params}" />
     </exec>
   </target>
 
