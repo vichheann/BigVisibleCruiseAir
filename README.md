@@ -1,9 +1,9 @@
 # Big Dashboard for Monitoring Continuous Integration Tools
-Back to 2009, it was inspired by other tools like BigVisibleCruise. I made an AIR application, so you can use it on Windows, Mac OS X and Linux.
+Back in 2009, it was inspired by other tools like BigVisibleCruise. I made an AIR application, so you can use it on Windows, Mac OS X and Linux.
 
-Basically, it fetches the same xml feed used by `cctray` tools. So you will be able to monitor the `CruiseControl` family and  the `Hudson` family. See each tool documentation. If your tool does not provide natively `cctray` feed, you may try third party plugins.
+Basically, it fetches the same xml feed used by the [cctray](http://www.cruisecontrolnet.org/projects/ccnet/wiki/Visualizers) tool. So you will be able to monitor the `CruiseControl` family and  the `Hudson` family. See each tool documentation. If your tool does not provide natively `cctray` feed, you may try third party plugins.
 
-The back story is that it was my first AIR application and also I wanted to try the `mate` framework. So it may need some refactoring!
+The back story is that it was my first AIR application and also I wanted to try the `mate` framework. So it may need some refactoring and more feature!
 
 ## Install
 You need to install the [Adobe AIR Runtime](http://get.adobe.com/air/).
@@ -18,7 +18,8 @@ You need
 
 1. ant 1.7+
 2. [Flex SDK 4.5.1](http://sourceforge.net/adobe/flexsdk/wiki/Download%20Flex%204.5/)
-2. Define some properties in a file `$HOME/.ant-global.properties`
+3. Get a code-signing certificate. I don't have so I use a [self-signed certificate](http://help.adobe.com/en_US/air/build/WS5b3ccc516d4fbf351e63e3d118666ade46-7f74.html)
+4. Define some properties in a file `$HOME/.ant-global.properties`
 
         flex_sdk_4.5=${user.home}/work/tools/sdk/flex_sdk_4.5
         air.keystore=${user.home}/work/air-cert.p12
