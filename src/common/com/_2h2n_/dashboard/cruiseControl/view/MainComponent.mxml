@@ -50,9 +50,9 @@
   <mate:Listener type="{MessageEvent.REFRESH}" receive="loadData()"/>
   <ns1:ProjectBox id="projectContainer" projects="{projects}" mute="{mute}" preferences="{preferences}" width="100%" height="100%"/>
   <mx:HBox id="controls" width="100%" horizontalAlign="right" paddingTop="1" paddingBottom="1">
-    <mx:LinkButton id="muteSound" label="{mute ? 'Alarme':'Sans Alarme'}" click="checkSound()" toolTip="Shift+S"/>
-    <mx:LinkButton id="refreshLink" label="Rafraichir" click="loadData()" toolTip="Ctrl+R"/>
-    <mx:LinkButton id="fullScreenLink" label="Plein écran" click="dispatchEvent(new MessageEvent(MessageEvent.FULLSCREEN))" toolTip="Ctrl+F"/>
-    <mx:LinkButton id="settingsLink" label="Configuration" click="dispatchEvent(new MessageEvent(MessageEvent.SHOW_CONFIGURATION))" toolTip="Ctrl+,"/>
+    <mx:LinkButton id="muteSound" label="{mute ? 'Sound':'No Sound'}" click="checkSound()" toolTip="Shift+S"/>
+    <mx:LinkButton id="refreshLink" label="Refresh" click="loadData()" toolTip="Ctrl+R"/>
+    <mx:LinkButton id="fullScreenLink" label="Full Screen" click="dispatchEvent(new MessageEvent(MessageEvent.FULLSCREEN))" toolTip="Ctrl+F or Cmd+F"/>
+    <mx:LinkButton id="settingsLink" label="Configuration" click="dispatchEvent(new MessageEvent(MessageEvent.SHOW_CONFIGURATION))" toolTip="Ctrl+, or Cmd+,"/>
   </mx:HBox>
 </mx:Box>

@@ -112,7 +112,7 @@
                                             bottom="0" right="0"/>
   </mx:Canvas>
   <mx:ControlBar width="100%" horizontalAlign="right">
-    <mx:Text id="cancel" text="Annuler" mouseChildren="false" useHandCursor="true" buttonMode="true" textDecoration="underline" click="close()"/>
-    <mx:Button id="submit" label="Enregistrer" click="update();"/>
+    <mx:Text id="cancel" text="Cancel" mouseChildren="false" useHandCursor="true" buttonMode="true" textDecoration="underline" click="close()"/>
+    <mx:Button id="submit" label="Save" click="update();"/>
   </mx:ControlBar>
 </mx:TitleWindow>
