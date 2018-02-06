@@ -1,7 +1,7 @@
 # Big Dashboard for Monitoring Continuous Integration Tools
 Back in 2009, it was inspired by other tools like BigVisibleCruise. I made an AIR application, so you can use it on Windows, Mac OS X and Linux.
 
-![alt Screenshot](https://dl.dropbox.com/u/3379742/BigVisibleCruiseAir.gif)
+![alt Screenshot](BigVisibleCruiseAir.gif)
 
 Basically, it fetches the same xml feed used by the [cctray](http://www.cruisecontrolnet.org/projects/ccnet/wiki/Visualizers) tool. So you will be able to monitor the `CruiseControl` family and  the `Hudson` family. See each tool documentation. If your tool does not provide natively `cctray` feed, you may try third party plugins.
 
